@@ -1,83 +1,318 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Starting Strength Calculator</title>
+<style type="text/css">
+.work {
+	font-weight:bold;
+}
+.auto-style1 {
+	text-align: center;
+}
+</style>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+<script>
 
-    <title>Starting Strength by chulahn</title>
-  </head>
+function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname+"="+cvalue+"; "+expires;
+}
 
-  <body>
-    <header>
-      <div class="inner">
-        <h1>Starting Strength</h1>
-        <h2></h2>
-        <a href="https://github.com/chulahn/StartingStrength" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+function checkCookie() {
+    var user=getCookie("username");
+    if (user != "") {
+        <!-- alert("Welcome again " + user); -->
+    } else {
+       user = prompt("Please enter your name:","");
+       if (user != "" && user != null) {
+           setCookie("username", user, 30);
+       }
+    }
+}
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+function getWeight(cname) {
+	var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) console.log( c.substring(name.length,c.length));
+    }
+    return c.substring(name.length,c.length);
+    
+	}
+</script>
+</head>
+<body onload="checkCookie()">
+<section id ="main" data-role="page">
+	<header data-theme="b" data-role="header">
+	<h1>Main Page</h1>
+	<a href="#" class ="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-home ui-btn-icon-left">Home</a>
+	<a href="#" class ="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-gear ui-btn-icon-left ">Settings</a>
+	</header><!-- header -->
+	
+	<p class="auto-style1">Starting Strength Calculator</p>
+	<input type="number" id="bodyweight">
+	<div data-role="collapsible">
+		<h3>Strength Standards</h3>
+		<p>
+		<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border: 1px solid transparent; color: rgb(0, 0, 0); font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 20.7999992370605px; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" width="100%">
+			<tr>
+				<td style="font-family: Arial, sans-serif;" valign="TOP" width="99%">
+				<p style="font-family: Arial, sans-serif; font-weight: normal; font-size: 1em; margin-top: 0px; margin-bottom: 0px; margin-left: 20px;">
+				</p>
+				<center>
+				<div class="WideTable" style="overflow-x: auto;">
+					<table border="1" cellpadding="2" cellspacing="0" style="border-collapse: separate; border: 1px outset gray; border-spacing: 0px;">
+						<tr>
+							<td style="font-family: Arial, sans-serif; border: 1px solid gray;">
+							<p style="font-family: Arial, sans-serif; font-weight: 400; font-size: 1em; margin-top: 0px; margin-bottom: 0px; margin-left: 20px;">
+							</p>
+							<center><i>Pounds</i></center></td>
+							<td colspan="5" style="font-family: Arial, sans-serif; border: 1px solid gray;">
+							<p style="font-family: Arial, sans-serif; font-weight: 400; font-size: 1em; margin-top: 0px; margin-bottom: 0px; margin-left: 20px;">
+							</p>
+							<center><b><font size="+1">
+							<a href="http://www.exrx.net/WeightExercises/DeltoidAnterior/BBMilitaryPress.html" style="cursor: pointer; color: rgb(11, 0, 128);">
+							Press</a><span class="Apple-converted-space">&nbsp;</span>- 
+							Adult Men</font></b></center></td>
+						</tr>
+						<tr>
+							<th bgcolor="#d9d9ff" style="font-family: Arial, sans-serif; border: 1px solid black;" width="20%">
+							Body Weight</th>
+							<th bgcolor="#d9d9ff" style="font-family: Arial, sans-serif; border: 1px solid black;" width="16%">
+							Untrained</th>
+							<th bgcolor="#d9d9ff" style="font-family: Arial, sans-serif; border: 1px solid black;" width="16%">
+							Novice</th>
+							<th bgcolor="#d9d9ff" style="font-family: Arial, sans-serif; border: 1px solid black;" width="16%">
+							Intermediate</th>
+							<th bgcolor="#d9d9ff" style="font-family: Arial, sans-serif; border: 1px solid black;" width="16%">
+							Advanced</th>
+							<th bgcolor="#d9d9ff" style="font-family: Arial, sans-serif; border: 1px solid black;" width="16%">
+							Elite</th>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							114</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							55</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							75</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							90</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							110</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							130</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							123</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							60</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							80</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							100</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							115</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							140</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							132</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							65</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							85</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							105</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							125</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							150</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							148</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							70</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							95</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							120</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							140</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							170</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							165</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							75</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							100</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							130</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							155</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							190</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							181</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							80</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							110</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							140</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							165</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							220</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							198</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							85</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							115</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							145</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							175</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							235</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							220</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							90</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							120</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							155</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							185</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							255</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							242</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							95</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							125</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							160</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							190</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							265</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							275</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							95</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							130</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							165</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							195</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							275</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							319</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							100</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							135</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							170</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							200</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							280</td>
+						</tr>
+						<tr>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="20%">
+							320+</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							100</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							140</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							175</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							205</td>
+							<td align="CENTER" style="font-family: Arial, sans-serif; border: 1px solid gray;" width="16%">
+							285</td>
+						</tr>
+					</table>
+				</div>
+				</center></td>
+			</tr>
+		</table>
+		</p>
+	</div>
+		<a href="#Squat" data-role="button">Squat</a>
+		<a href="#Bench" data-role="button">Bench</a>
+		<a href="#Deadlift" data-role="button">Deadlift</a>
+		<a href="#OHP" data-role="button">Overhead Press</a>
+		<a href="#Row" data-role="button">Pendlay Row</a>
+</section>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<section id ="Squat" class="Exercise" data-role="page">
+	<h1>Squat</h1>
+</section><!-- end squat-->
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<section id ="Bench" class="Exercise" data-role="page">
+	<h1>Bench</h1>
+</section><!-- end bench-->
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<section id ="Deadlift" class="Exercise" data-role="page">
+	<h1>Deadlift</h1>
+</section><!-- end deadlift-->
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<section id ="OHP" class="Exercise" data-role="page">
+	<h1>Overhead Press</h1>
+</section><!-- end ohp-->
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<section id ="Row" class="Exercise" data-role="page">
+	<h1>Pendlay Row</h1>
+</section><!-- end row-->
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<script src="first.js"></script>
+</body>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/chulahn/StartingStrength/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/chulahn/StartingStrength/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/chulahn/StartingStrength"></a> is maintained by <a href="https://github.com/chulahn">chulahn</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
-
-  
-  </body>
 </html>
