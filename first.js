@@ -120,6 +120,8 @@ $(document).ready(function () {
 
 	//finds weight class
 	var bodyweight=getWeight('bodyweight');
+	console.log(bodyweight);
+	console.log(weightClass);
 	var wc = getWeightClass(bodyweight);
 	console.log("You are in the " + weightClass[wc] + " lbs weight class");
 	$('#bodyweight').change(function (e) {
