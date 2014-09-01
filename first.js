@@ -21,6 +21,18 @@ var RowStandards = [[80,145,175,240,320], [85,155,190,260,345],[90,170,205,280,3
  [140,260,320,435,570], [145,270,325,445,580], [150,275,330,455,595]];
 var standard = ["Untrained", "Novice", "Intermediate", "Advanced", "Elite"];
 
+function getWeight(cname) {
+	var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) console.log( c.substring(name.length,c.length));
+    }
+    return c.substring(name.length,c.length);
+    
+	}
+
 //add custom plates and kg
 function numToPlate(data) {
 	var orig = data;
