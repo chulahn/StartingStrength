@@ -150,6 +150,7 @@ $(document).ready(function () {
 	//create handler for input
 	$(document).on('pageshow', ".Exercise", function(){
 		bodyweight = getWeight('bodyweight');
+		wc = getWeightClass(bodyweight);
 		$('.bw').html('Your bodyweight is '+bodyweight+' pounds');
 		$('.wc').html(' You are in the ' + weightClass[wc] + ' lbs weight class');
 		var exerciseName = $(this).attr('id');
