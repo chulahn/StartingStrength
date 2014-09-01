@@ -2,8 +2,10 @@
 
 
 //Men + Pounds
-var weightClass = [114,123,132,148,165,181,198,220,242,275,319,320];
+var weightClass = [114,123,132,148,165,181,198,220,242,275,319,"320+"];
 //index from weightClass determines standard
+
+//ohp standards are current powerclean
 var OHPStandards = [[55,105,125,175,205], [ 60,110,135,185,225], [65,120,150,200,240], [75,135,165,225,265] ,
  [80,145,180,245,290], [85,160,195,265,310], [90,165,205,280,325], [95,175,215,295,345], [100,185,225,305,355],
  [105,190,230,315,365], [110,195,235,320,375] , [115,200,240,330,385]];
@@ -20,6 +22,8 @@ var RowStandards = [[80,145,175,240,320], [85,155,190,260,345],[90,170,205,280,3
  [110,205,250,340,445],[120,220,270,370,480], [125,230,285,390,505], [130,245,300,410,530], [135,255,310,425,550],
  [140,260,320,435,570], [145,270,325,445,580], [150,275,330,455,595]];
 var standard = ["Untrained", "Novice", "Intermediate", "Advanced", "Elite"];
+var exercises = ["Squat", "Bench Press", "Deadlift", "Overhead Press", "Pendlay Rows"];
+var lbkg = ["Pounds", "Kg"];
 
 function getWeight(cname) {
 	var name = cname + "=";
@@ -122,6 +126,32 @@ function weightStandard(exercise, wc, oneRM) {
 }
 
 $(document).ready(function () {
+
+	var table = $('#tab');
+	console.log(table);
+
+
+
+	//gets first 
+	//replace with h1
+	$('#tab th:nth-child(1)').html(lbkg[0]);
+	$('#tab th:nth-child(2)').html(exercises[0]);
+	var rows = $('#tab td:nth-child(1)').length;
+	for (i=0; i<rows-1; i++) {
+		// $('#tab td:nth-child('+i+')').html("Here");
+		//writes the weight classes
+		$('#tab tr:nth-child('+(i+3)+') td:nth-child(1)').html(weightClass[i]);
+		$('#tab tr:nth-child('+(i+3)+') td:nth-child(1)').css("width", "20%");
+		var columns = $('#tab td').length
+		for (j=0; j<columns-1; j++) {
+			$('#tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').html(OHPStandards[i][j]);
+			$('#tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').css("width", "16%");
+		}
+	}
+	$('#tab td').addClass("auto-style1");
+	// $('#tab th:nth-child(1)').html("	Hello");
+	
+	// for int
 
 	//finds weight class
 	var bodyweight=getWeight('bodyweight');
