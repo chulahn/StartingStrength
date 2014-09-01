@@ -71,7 +71,9 @@ function getWeightClass(data) {
 			if (i==0){
 				w=0;
 			}
+			else{
 			w = i-1;	
+		}
 			break
 		}
 		else {
