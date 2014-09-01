@@ -68,6 +68,9 @@ function getWeightClass(data) {
 	for (i=0; i<weightClass.length; i++) {
 
 		if (weightClass[i] > data) {
+			if (i==0){
+				w=0;
+			}
 			w = i-1;	
 			break
 		}
@@ -120,10 +123,7 @@ $(document).ready(function () {
 
 	//finds weight class
 	var bodyweight=getWeight('bodyweight');
-	console.log(bodyweight);
-	console.log(weightClass);
 	var wc = getWeightClass(bodyweight);
-	console.log(wc);
 	console.log("You are in the " + weightClass[wc] + " lbs weight class");
 	$('#bodyweight').change(function (e) {
 		bodyweight = $(this).val();
