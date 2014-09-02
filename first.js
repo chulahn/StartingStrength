@@ -131,32 +131,6 @@ function weightStandard(exercise, wc, oneRM) {
 
 $(document).ready(function () {
 
-	var table = $('#tab');
-	console.log(table);
-
-
-
-	//gets first 
-	//replace with h1
-	$('#tab th:nth-child(1)').html(lbkg[0]);
-	$('#tab th:nth-child(2)').html(exercises[0]);
-	var rows = $('#tab td:nth-child(1)').length;
-	for (i=0; i<rows-1; i++) {
-		// $('#tab td:nth-child('+i+')').html("Here");
-		//writes the weight classes
-		$('#tab tr:nth-child('+(i+3)+') td:nth-child(1)').html(weightClass[i]);
-		$('#tab tr:nth-child('+(i+3)+') td:nth-child(1)').css("width", "20%");
-		var columns = $('#tab td').length
-		for (j=0; j<columns-1; j++) {
-			$('#tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').html(OHPStandards[i][j]);
-			$('#tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').css("width", "16%");
-		}
-	}
-	$('#tab td').addClass("auto-style1");
-	// $('#tab th:nth-child(1)').html("	Hello");
-	
-	// for int
-
 	//finds weight class
 	var bodyweight=getWeight('bodyweight');
 	var wc = getWeightClass(bodyweight);
@@ -178,6 +152,45 @@ $(document).ready(function () {
 		//add working weight slider, working sets and 1rm
 		$('<p></p>Working Weight<input class="Weight" type="range" min="45" max="500" step="5" /><div id="Sets"><div>45x5x2 (Bar)</div><div id='+exerciseName+'warmup1></div><div id='+exerciseName+'warmup2></div><div id='+exerciseName+'warmup3></div><div class="work" id='+exerciseName+'warmup4></div></div><br /><div id ='+exerciseName+'max></div>').appendTo($(this));
 		$('<p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
+
+
+		$('<div data-role="collapsible"><h3>Strength Standards</h3><div id='+exerciseName+'Tab class="tab"><table align="center" style="width: 30%; height: 160px;" class="auto-style2"><tr><th></th><th colspan="5"></th></tr><tr><td>Body Weight</td><td>Untrained</td><td>Novice</td><td>Intermediate</td><td>Advanced</td><td>Elite</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></div></div>').appendTo($(this));
+
+
+
+		//replace with h1
+		$('.tab th:nth-child(1)').html(lbkg[0]);
+		$('#'+exerciseName+'Tab th:nth-child(2)').html(exerciseName);
+		var rows = $('#'+exerciseName+'Tab td:nth-child(1)').length;
+		for (i=0; i<rows-1; i++) {
+			// $('#tab td:nth-child('+i+')').html("Here");
+			//writes the weight classes
+			$('.tab tr:nth-child('+(i+3)+') td:nth-child(1)').html(weightClass[i]);
+			$('.tab tr:nth-child('+(i+3)+') td:nth-child(1)').css("width", "20%");
+			var columns = $('#'+exerciseName+'Tab td').length
+			for (j=0; j<columns-1; j++) {
+				switch (exerciseName) {
+					case "OHP":
+						workout = OHPStandards;
+						break;
+					case "Squat":
+						workout = SquatStandards;
+						break;
+					case "Deadlift":
+						workout = DeadliftStandards;
+						break;
+					case "Bench":
+						workout = BenchStandards;
+						break;
+					case "Row":
+						workout = RowStandards;
+						break;
+				}
+				$('#'+exerciseName+'Tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').html(workout[i][j]);
+				$('.tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').css("width", "16%");
+			}
+		}
+		$('.tab td').addClass("auto-style1");
 	});
 
 

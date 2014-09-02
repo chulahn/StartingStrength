@@ -13,7 +13,7 @@
 	text-align: center;
 }
 
-#tab {
+.tab {
 	overflow: scroll;
 	
 }
@@ -37,9 +37,6 @@ th {
 	border-width: 1px;
 
 	
-}
-.auto-style2 {
-	border-style: solid;
 }
 </style>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
@@ -102,121 +99,6 @@ function getWeight(cname) {
 	
 	<p class="auto-style1">Starting Strength Calculator</p>
 	<input type="number" id="bodyweight">
-	<div data-role="collapsible">
-		<h3>Strength Standards</h3>
-		<div id="tab">
-		<table align="center" style="width: 30%; height: 160px;" class="auto-style2">
-			<tr>
-				<th>&nbsp;</th>
-				<th colspan="5">&nbsp;</th>
-				</tr>
-			<tr>
-				<td width="20%" class="auto-style1">Body Weight</td>
-				<td width="16%" class="auto-style1">Untrained</td>
-				<td width="16%" class="auto-style1">Novice</td>
-				<td width="16%" class="auto-style1">Intermediate</td>
-				<td width="16%" class="auto-style1">Advanced</td>
-				<td width="16%" class="auto-style1">Elite</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td style="height: 26px"></td>
-				<td style="height: 26px"></td>
-				<td style="height: 26px"></td>
-				<td style="height: 26px"></td>
-				<td style="height: 26px"></td>
-				<td style="height: 26px"></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-		</table>
-		</div>
-		</div>
 		<a href="#Squat" data-role="button">Squat</a>
 		<a href="#Bench" data-role="button">Bench</a>
 		<a href="#Deadlift" data-role="button">Deadlift</a>
@@ -226,6 +108,7 @@ function getWeight(cname) {
 
 <section id ="Squat" class="Exercise" data-role="page">
 	<h1>Squat</h1>
+
 </section><!-- end squat-->
 
 <section id ="Bench" class="Exercise" data-role="page">
