@@ -158,6 +158,9 @@ function pickWorkout(exercise) {
 		case "Row":
 			workout = RowStandards;
 			break;
+		case "PC":
+			workout = PowerCleanStandards;
+			break;
 	}
 	return workout;
 }
@@ -187,13 +190,8 @@ $(document).ready(function () {
 	//finds weight class
 	var bodyweight=getCookie('bodyweight');
 	var wc = getWeightClass(bodyweight);
-	console.log("You are in the " + weightClass[wc] + " lbs weight class");
 	$('#bodyweight').change(function (e) {
-		bodyweight = $(this).val();
-		var d = new Date();
-    	d.setTime(d.getTime() + (2*24*60*60*1000));
-    	var expires = "expires=" + d.toUTCString();
-		document.cookie = "bodyweight=" + bodyweight + "; " + expires;
+		setCookie("bodyweight", $(this).val(), 30);
 	});
 
 	//each exercise, create page
@@ -217,33 +215,15 @@ $(document).ready(function () {
 
 		//replace with h1
 		$('.tab th:nth-child(1)').html(lbkg[0]);
-		$('#'+exerciseName+'Tab th:nth-child(2)').html(exerciseName);
+		$('#'+exerciseName+'Tab th:nth-child(2)').html($(this).children("h1").text());
 		var rows = $('#'+exerciseName+'Tab td:nth-child(1)').length;
 
 		for (i=0; i<rows-1; i++) {
-			// $('#tab td:nth-child('+i+')').html("Here");
 			//writes the weight classes
 			$('.tab tr:nth-child('+(i+3)+') td:nth-child(1)').html(weightClass[i]);
 			$('.tab tr:nth-child('+(i+3)+') td:nth-child(1)').css("width", "20%");
 			var columns = $('#'+exerciseName+'Tab td').length
 			for (j=0; j<columns-1; j++) {
-				// switch (exerciseName) {
-				// 	case "OHP":
-				// 		workout = OHPStandards;
-				// 		break;
-				// 	case "Squat":
-				// 		workout = SquatStandards;
-				// 		break;
-				// 	case "Deadlift":
-				// 		workout = DeadliftStandards;
-				// 		break;
-				// 	case "Bench":
-				// 		workout = BenchStandards;
-				// 		break;
-				// 	case "Row":
-				// 		workout = RowStandards;
-				// 		break;
-				// }
 				$('#'+exerciseName+'Tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').html(pickWorkout(exerciseName)[i][j]);
 				$('.tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').css("width", "16%");
 			}
