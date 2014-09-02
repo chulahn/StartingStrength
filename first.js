@@ -140,7 +140,7 @@ function getWeightClass(data) {
 	return w;
 }
 
-function weightStandard(exercise, wc, oneRM) {
+function pickWorkout(exercise) {
 	var workout;
 	switch (exercise) {
 		case "OHP":
@@ -159,6 +159,11 @@ function weightStandard(exercise, wc, oneRM) {
 			workout = RowStandards;
 			break;
 	}
+	return workout;
+}
+
+function weightStandard(exercise, wc, oneRM) {
+	workout = pickWorkout(exercise);
 	var w;
 	for (i=0; i<workout[wc].length; i++) {
 		if (workout[wc][i] > oneRM){
@@ -205,13 +210,10 @@ $(document).ready(function () {
 		}
 		//add working weight slider, working sets and 1rm
 		$('<p></p>Working Weight<input id='+exerciseName+'Weight type="range" value='+weight+' min="45" max="500" step="5" /><div id="Sets"><div>45x5x2 (Bar)</div><div id='+exerciseName+'warmup1></div><div id='+exerciseName+'warmup2></div><div id='+exerciseName+'warmup3></div><div class="work" id='+exerciseName+'warmup4></div></div><br /><div id ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
+		
 		calculateWarmups(exerciseName, weight);
 
-
-
 		$('<div data-role="collapsible"><h3>Strength Standards</h3><div id='+exerciseName+'Tab class="tab"><table align="center" style="width: 30%; height: 160px;" class="auto-style2"><tr><th></th><th colspan="5"></th></tr><tr><td>Body Weight</td><td>Untrained</td><td>Novice</td><td>Intermediate</td><td>Advanced</td><td>Elite</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></div></div>').appendTo($(this));
-
-
 
 		//replace with h1
 		$('.tab th:nth-child(1)').html(lbkg[0]);
@@ -225,24 +227,24 @@ $(document).ready(function () {
 			$('.tab tr:nth-child('+(i+3)+') td:nth-child(1)').css("width", "20%");
 			var columns = $('#'+exerciseName+'Tab td').length
 			for (j=0; j<columns-1; j++) {
-				switch (exerciseName) {
-					case "OHP":
-						workout = OHPStandards;
-						break;
-					case "Squat":
-						workout = SquatStandards;
-						break;
-					case "Deadlift":
-						workout = DeadliftStandards;
-						break;
-					case "Bench":
-						workout = BenchStandards;
-						break;
-					case "Row":
-						workout = RowStandards;
-						break;
-				}
-				$('#'+exerciseName+'Tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').html(workout[i][j]);
+				// switch (exerciseName) {
+				// 	case "OHP":
+				// 		workout = OHPStandards;
+				// 		break;
+				// 	case "Squat":
+				// 		workout = SquatStandards;
+				// 		break;
+				// 	case "Deadlift":
+				// 		workout = DeadliftStandards;
+				// 		break;
+				// 	case "Bench":
+				// 		workout = BenchStandards;
+				// 		break;
+				// 	case "Row":
+				// 		workout = RowStandards;
+				// 		break;
+				// }
+				$('#'+exerciseName+'Tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').html(pickWorkout(exerciseName)[i][j]);
 				$('.tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').css("width", "16%");
 			}
 		}
