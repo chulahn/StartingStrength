@@ -42,54 +42,8 @@ th {
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
-<script>
-
-function setCookie(cname,cvalue,exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires=" + d.toGMTString();
-    document.cookie = cname+"="+cvalue+"; "+expires;
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) != -1) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-function checkCookie() {
-    var user=getCookie("username");
-    if (user != "") {
-        <!-- alert("Welcome again " + user); -->
-    } else {
-       user = prompt("Please enter your name:","");
-       if (user != "" && user != null) {
-           setCookie("username", user, 30);
-       }
-    }
-}
-
-function getWeight(cname) {
-	var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) != -1) console.log( c.substring(name.length,c.length));
-    }
-    return c.substring(name.length,c.length);
-    
-	}
-</script>
+<script src="first.js"></script>
 </head>
-<body onload="checkCookie()">
 <section id ="main" data-role="page">
 	<header data-theme="b" data-role="header">
 	<h1>Main Page</h1>
@@ -126,8 +80,6 @@ function getWeight(cname) {
 <section id ="Row" class="Exercise" data-role="page">
 	<h1>Pendlay Row</h1>
 </section><!-- end row-->
-
-<script src="first.js"></script>
 </body>
 
 </html>

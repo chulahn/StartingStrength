@@ -5,7 +5,6 @@
 var weightClass = [114,123,132,148,165,181,198,220,242,275,319,"320+"];
 //index from weightClass determines standard
 
-//ohp standards are current powerclean
 var OHPStandards = [[55,75,90,110,130], [60,80,100,115,140], [65,85,105,125,150], [70,95,120,140,170] ,
  [75,100,130,155,190], [80,110,140,165,220], [85,115,145,175,235], [90,120,155,185,255], [95,125,160,190,265],
  [95,130,165,195,275], [100,135,170,200,280] , [100,140,175,205,285]];
@@ -26,20 +25,70 @@ var PowerCleanStandards= [[55,105,125,175,205], [ 60,110,135,185,225], [65,120,1
  [80,145,180,245,290], [85,160,195,265,310], [90,165,205,280,325], [95,175,215,295,345], [100,185,225,305,355],
  [105,190,230,315,365], [110,195,235,320,375] , [115,200,240,330,385]];
 var standard = ["Untrained", "Novice", "Intermediate", "Advanced", "Elite"];
-var exercises = ["Squat", "Bench Press", "Deadlift", "Overhead Press", "Pendlay Rows"];
+var exercises = ["Squat", "Bench Press", "Deadlift", "Overhead Press", "Pendlay Rows", "Power Cleans"];
 var lbkg = ["Pounds", "Kg"];
 
-function getWeight(cname) {
-	var name = cname + "=";
+function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname+"="+cvalue+"; "+expires;
+}
+
+function calculateWarmups(exerciseName, weight){
+	var set = [];
+	var max;
+			for (j=1; j<5; j++) {
+				mult = ((j+1)*.2).toFixed(1) * weight;
+				if (mult < 45) {
+					mult = 45;
+				}
+				mult = Math.floor(mult/5) * 5;
+				set[j] = mult;
+				if (j == 1){
+					set[j] += "x5"
+					}
+				if (j == 2){
+					set[j] += "x3"
+				}
+				if (j == 3){
+					set[j] += "x2"
+				}
+				if (j == 4){
+					set[j] += "x5x3"
+				}
+				set[j] += " "  + numToPlate(mult);
+				$('#'+exerciseName+'warmup'+[j]).html(set[j]);
+				setCookie(exerciseName, weight, 30);
+			}
+			max = Math.round(weight / (1.0278 - (.0278 * 5)));
+			$('#'+exerciseName+'max').html("Your 1 Rep Max is " + max + " "  + numToPlate(max));
+			$('#'+exerciseName+'Standard').html("You are in the category "+ standard[weightStandard(exerciseName, getWeightClass(getCookie('bodyweight')), max)]);
+}
+function getCookie(cname) {
+    var name = cname + "=";
     var ca = document.cookie.split(';');
     for(var i=0; i<ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) != -1) console.log( c.substring(name.length,c.length));
+        if (c.indexOf(name) != -1) {
+            return c.substring(name.length, c.length);
+        }
     }
-    return c.substring(name.length,c.length);
-    
-	}
+    return "";
+}
+
+function checkCookie() {
+    var user=getCookie("username");
+    if (user != "") {
+        <!-- alert("Welcome again " + user); -->
+    } else {
+       user = prompt("Please enter your name:","");
+       if (user != "" && user != null) {
+           setCookie("username", user, 30);
+       }
+    }
+}
 
 //add custom plates and kg
 function numToPlate(data) {
@@ -112,7 +161,6 @@ function weightStandard(exercise, wc, oneRM) {
 	}
 	var w;
 	for (i=0; i<workout[wc].length; i++) {
-
 		if (workout[wc][i] > oneRM){
 			if (i==0){
 				w = 0;
@@ -132,7 +180,7 @@ function weightStandard(exercise, wc, oneRM) {
 $(document).ready(function () {
 
 	//finds weight class
-	var bodyweight=getWeight('bodyweight');
+	var bodyweight=getCookie('bodyweight');
 	var wc = getWeightClass(bodyweight);
 	console.log("You are in the " + weightClass[wc] + " lbs weight class");
 	$('#bodyweight').change(function (e) {
@@ -147,11 +195,18 @@ $(document).ready(function () {
 	$('.Exercise').each(function () {
 		var exerciseName = $(this).attr('id');
 		$('<header data-theme="b" data-role="header"><h1>'+$(this).children("h1").text()+'</h1><a href="#" class ="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-back ui-btn-icon-left" data-rel="back">Back</a><a href="#" class ="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-gear ui-btn-icon-left">Settings</a></header>').prependTo($(this));
-		$(this).append('<h2 class="bw"> Your bodyweight is '+bodyweight+' pounds');
-		$(this).append('<h3 class="wc"> You are in the ' + weightClass[wc] + ' lbs weight class');
+		$(this).append('<h2 class="bw"> Your bodyweight is '+bodyweight+' pounds <h3 class="wc"> You are in the ' + weightClass[wc] + ' lbs weight class');
+		// $(this).append('<h3 class="wc"> You are in the ' + weightClass[wc] + ' lbs weight class');
+
+		//if weight was set before, set the input value
+		var weight= 50;
+		if (getCookie(exerciseName) != ""){
+			weight = parseInt( getCookie(exerciseName) );
+		}
 		//add working weight slider, working sets and 1rm
-		$('<p></p>Working Weight<input class="Weight" type="range" min="45" max="500" step="5" /><div id="Sets"><div>45x5x2 (Bar)</div><div id='+exerciseName+'warmup1></div><div id='+exerciseName+'warmup2></div><div id='+exerciseName+'warmup3></div><div class="work" id='+exerciseName+'warmup4></div></div><br /><div id ='+exerciseName+'max></div>').appendTo($(this));
-		$('<p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
+		$('<p></p>Working Weight<input id='+exerciseName+'Weight type="range" value='+weight+' min="45" max="500" step="5" /><div id="Sets"><div>45x5x2 (Bar)</div><div id='+exerciseName+'warmup1></div><div id='+exerciseName+'warmup2></div><div id='+exerciseName+'warmup3></div><div class="work" id='+exerciseName+'warmup4></div></div><br /><div id ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
+		calculateWarmups(exerciseName, weight);
+
 
 
 		$('<div data-role="collapsible"><h3>Strength Standards</h3><div id='+exerciseName+'Tab class="tab"><table align="center" style="width: 30%; height: 160px;" class="auto-style2"><tr><th></th><th colspan="5"></th></tr><tr><td>Body Weight</td><td>Untrained</td><td>Novice</td><td>Intermediate</td><td>Advanced</td><td>Elite</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></div></div>').appendTo($(this));
@@ -162,6 +217,7 @@ $(document).ready(function () {
 		$('.tab th:nth-child(1)').html(lbkg[0]);
 		$('#'+exerciseName+'Tab th:nth-child(2)').html(exerciseName);
 		var rows = $('#'+exerciseName+'Tab td:nth-child(1)').length;
+
 		for (i=0; i<rows-1; i++) {
 			// $('#tab td:nth-child('+i+')').html("Here");
 			//writes the weight classes
@@ -196,42 +252,17 @@ $(document).ready(function () {
 
 	//create handler for input
 	$(document).on('pageshow', ".Exercise", function(){
-		bodyweight = getWeight('bodyweight');
+		bodyweight = getCookie('bodyweight');
 		wc = getWeightClass(bodyweight);
 		$('.bw').html('Your bodyweight is '+bodyweight+' pounds');
 		$('.wc').html(' You are in the ' + weightClass[wc] + ' lbs weight class');
 		var exerciseName = $(this).attr('id');
-		$('.Weight').change(function (e) {
+
+		$('#'+exerciseName+'Weight' ).change(function (e) {
 			var weight = $(this).val();
-			var set = [];
-			var max;
 			if ($.isNumeric(weight))
 			{
-				for (j=1; j<5; j++) {
-					mult = ((j+1)*.2).toFixed(1) * weight;
-					if (mult < 45) {
-						mult = 45;
-					}
-					mult = Math.floor(mult/5) * 5;
-					set[j] = mult;
-					if (j == 1){
-						set[j] += "x5"
-					}
-					if (j == 2){
-						set[j] += "x3"
-					}
-					if (j == 3){
-						set[j] += "x2"
-					}
-					if (j == 4){
-						set[j] += "x5x3"
-					}
-					set[j] += " "  + numToPlate(mult);
-					$('#'+exerciseName+'warmup'+[j]).html(set[j]);
-				}
-				max = Math.round(weight / (1.0278 - (.0278 * 5)));
-				$('#'+exerciseName+'max').html("Your 1 Rep Max is " + max + " "  + numToPlate(max));
-				$('#'+exerciseName+'Standard').html("You are in the category "+ standard[weightStandard(exerciseName, wc, max)]);
+				calculateWarmups(exerciseName, weight);
 			}
 		});
 	});
