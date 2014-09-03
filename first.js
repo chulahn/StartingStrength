@@ -46,7 +46,7 @@ function calculateWarmups(exerciseName, weight){
 				if (mult < plates[getCookie('lbkg')][0]) {
 					mult = plates[getCookie('lbkg')][0];
 				}
-				mult = Math.floor(mult/5) * 5;
+				mult = Math.floor(mult/2*plates[getCookie('lbkg')][plates[0].length-1]) * 2*plates[getCookie('lbkg')][plates[0].length-1];
 				set[j] = mult;
 				if (j == 1){
 					set[j] += "x5"
