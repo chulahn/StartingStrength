@@ -46,7 +46,7 @@ function calculateWarmups(exerciseName, weight){
 				if (mult < plates[getCookie('lbkg')][0]) {
 					mult = plates[getCookie('lbkg')][0];
 				}
-				mult = Math.floor(mult/2*plates[getCookie('lbkg')][plates[0].length-1]) * 2*plates[getCookie('lbkg')][plates[0].length-1];
+				mult = Math.floor(mult/ (2*plates[getCookie('lbkg')][plates[0].length-1]) ) * 2*plates[getCookie('lbkg')][plates[0].length-1];
 				set[j] = mult;
 				if (j == 1){
 					set[j] += "x5"
@@ -93,6 +93,19 @@ function checkCookie() {
     }
 }
 
+function setPlates() {
+	var array =[];
+	count =0;
+	$('#plates input:checked').each(function () {
+		//get the index from last part of id
+		array[count] = plates[getCookie('lbkg')][parseInt($(this).attr('id')[$(this).attr('id').length-1])];
+		count += 1;
+	});
+
+	setCookie('plates', JSON.stringify(array), 30);
+	console.log(array);
+}
+
 function calculateStrengthStandards(exerciseName){
 		$('.tab th:nth-child(1)').html(lbkg[getCookie('lbkg')]);
 		$('#'+exerciseName+'Tab th:nth-child(2)').html($('#'+exerciseName).children("h1").text());
@@ -113,8 +126,12 @@ function calculateStrengthStandards(exerciseName){
 //add custom plates and kg
 function numToPlate(data) {
 	var orig = data;
-	var outPlates = [NaN,NaN,NaN,NaN,NaN,NaN];
-	var weight = plates[getCookie('lbkg')];
+	var weight = $.parseJSON(getCookie('plates'));
+	var outPlates = [];
+	for (i=0; i<weight.length; i++){
+		outPlates[i] = NaN;
+	}
+
 	var string = "(";
 	//if input > bar
 	if (data > plates[getCookie('lbkg')][0]) {
@@ -136,6 +153,7 @@ function numToPlate(data) {
 	}
 	//less than 45 + 2*2.5 or 20+2*1
 	if (orig < plates[getCookie('lbkg')][0] + 2*plates[getCookie('lbkg')][plates[0].length-1]) {
+	// if (orig < weight[0] + 2*weight[weight.length-1]) {
 		string += "Bar";
 	}
 	string += ")";
@@ -216,7 +234,10 @@ $(document).ready(function () {
 		setCookie("bodyweight", $(this).val(), 30);
 		wc = getWeightClass($(this).val());
 	});
-
+	$('#plates').change(function () {
+		setPlates();
+		console.log(getCookie('plates'));
+	})
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
 	//if settings have not been set yet, automatically set to lbs
@@ -234,13 +255,13 @@ $(document).ready(function () {
 		$('#radio-choice-h-2a').prop('checked',"checked");		
 	}
 	for (i=0; i<numPlates+1; i++) {
-		$('label[for="plate'+(i+1)+'"]').text(plates[weightSystem][i]);
+		$('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
 	}
 
 	//handler for lbkg to set weight system, slider, and strength standard table
 	$('#weightSystem').change(function () {
 		for (i=0; i<numPlates+1; i++) {
-		$('label[for="plate'+(i+1)+'"]').text(plates[getCookie('lbkg')][i]);
+		$('label[for="plate'+(i)+'"]').text(plates[getCookie('lbkg')][i]);
 		$('.slider').attr('min' ,slider[getCookie('lbkg')][0]);
 		$('.slider').attr('max' ,slider[getCookie('lbkg')][1]);
 		$('.slider').attr('step' ,slider[getCookie('lbkg')][2]);
