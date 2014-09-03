@@ -271,11 +271,11 @@ $(document).ready(function () {
 		$('.slider').attr('min' ,slider[getCookie('lbkg')][0]);
 		$('.slider').attr('max' ,slider[getCookie('lbkg')][1]);
 		$('.slider').attr('step' ,slider[getCookie('lbkg')][2]);
+		//need to change strength standards
+	}
 		for (j=0; j<eName.length; j++) {
 			calculateStrengthStandards(eName[j]);
 		}
-		//need to change strength standards
-	}
 	})
 
 	//each exercise, create page
