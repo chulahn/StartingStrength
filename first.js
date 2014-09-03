@@ -199,7 +199,7 @@ $(document).ready(function () {
 
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
-	if (getCookie('lbkg') = ""){
+	if (weightSystem == ""){
 		weightSystem = 0;
 	}
 	var numPlates = $('#plates input').length;
