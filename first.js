@@ -133,7 +133,7 @@ function numToPlate(data) {
 	}
 
 	var string = "(";
-	//if input > bar
+	//if input > bar, subtract bar
 	if (data > plates[getCookie('lbkg')][0]) {
 		data = (data-plates[getCookie('lbkg')][0]) / 2;
 		for (i=0; i<outPlates.length; i++) {
@@ -151,8 +151,8 @@ function numToPlate(data) {
 				string = string.substring(0,string.length-1);	
 		}
 	}
-	//less than 45 + 2*2.5 or 20+2*1
-	if (orig < plates[getCookie('lbkg')][0] + 2*plates[getCookie('lbkg')][plates[0].length-1]) {
+	//less than 45 + 2* lowest available
+	if (orig < plates[getCookie('lbkg')][0] + 2*weight[weight.length-1]) {
 	// if (orig < weight[0] + 2*weight[weight.length-1]) {
 		string += "Bar";
 	}
@@ -230,14 +230,17 @@ $(document).ready(function () {
 	//finds weight class
 	var bodyweight=getCookie('bodyweight');
 	var wc = getWeightClass(bodyweight);
-	$('#bodyweight').change(function (e) {
+	$('#bodyweight').change(function () {
 		setCookie("bodyweight", $(this).val(), 30);
 		wc = getWeightClass($(this).val());
 	});
+
+	//set plates
 	$('#plates').change(function () {
 		setPlates();
 		console.log(getCookie('plates'));
 	})
+
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
 	//if settings have not been set yet, automatically set to lbs
