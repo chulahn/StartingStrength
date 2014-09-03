@@ -59,6 +59,8 @@ th {
 		<a href="#OHP" data-role="button">Overhead Press</a>
 		<a href="#Row" data-role="button">Pendlay Row</a>
 		<a href="#PC" data-role="button">Power Cleans</a>
+		
+		<a href="#Settings" data-transition="slidedown">Settings</a>
 
 </section>
 
@@ -86,13 +88,45 @@ th {
 	<h1>Power Cleans</h1>
 </section><!-- end pc-->
 
-<section id ="About" data-role="page" data-theme="e" data-content-theme="e">
+<section id ="About" data-role="page">
 	<div data-content-theme="e">
 		<h1>About</h1>
 		<p>This website is used to calculate your warm up sets as well as the weights needed on each side.  It also calculates 1RM(One Rep Max) and compares your strength to weightlifting standards.  Based on warmupreps.com</p>
 	<p><a data-rel="back" data-theme="e">Back</a>
 	</p>
 	</div>
+</section>
+
+<section id="Settings" data-role="page">
+<form>
+<fieldset id="weightSystem" data-role="controlgroup" data-type="horizontal">
+    <legend>Pounds or Kg</legend>
+    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a"  checked="checked" onclick="setCookie('lbkg',0,30)" >
+    <label for="radio-choice-h-2a">Lb</label>
+    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" checked="" onclick="setCookie('lbkg',1,30)">
+    <label for="radio-choice-h-2b">Kg</label>
+</fieldset>
+<form>
+<fieldset id="plates" data-role="controlgroup" data-type="horizontal">
+    <legend>Plates:</legend>
+    <input type="checkbox" name="checkbox-h-2a" id="plate1" checked="checked">
+    <label for="plate1">45</label></input>
+    <input type="checkbox" name="checkbox-h-2b" id="plate2" checked="checked">
+    <label for="plate2">35</label>
+    <input type="checkbox" name="checkbox-h-2c" id="plate3" checked="checked">
+    <label for="plate3">25</label>
+    <input type="checkbox" name="checkbox-h-2d" id="plate4" checked="checked">
+    <label for="plate4">10</label>
+    <input type="checkbox" name="checkbox-h-2e" id="plate5" checked="checked">
+    <label for="plate5">5</label>
+    <input type="checkbox" name="checkbox-h-2f" id="plate6" checked="checked">
+    <label for="plate6">2.5</label>
+</fieldset>
+</form>
+
+	<p><a data-rel="back" data-theme="e">Back</a>
+	</p>
+
 </section>
 
 
