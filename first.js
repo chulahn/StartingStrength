@@ -269,12 +269,11 @@ $(document).ready(function () {
 		wc = getWeightClass($(this).val());
 	});
 
+	//add the warmup sets to workout page
 	$('.workoutdiv div[data-role="collapsible"]').each( function() {
 		var arrayIndex = $.inArray($(this).children('h3').text(),exercises);
-		console.log (arrayIndex);
-		console.log(eName[arrayIndex]);
 		var a = eName[arrayIndex];
-		$(this).children('p').html('<div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+a+'warmup1></div><div class='+a+'warmup2></div><div class='+a+'warmup3></div><div class="work" class='+a+'warmup4></div></div>');
+		$(this).children('p').html('<div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+a+'warmup1></div><div class='+a+'warmup2></div><div class='+a+'warmup3></div><div class='+a+'warmup4></div></div>');
 
 		
 	});
@@ -312,7 +311,7 @@ $(document).ready(function () {
 			weight = parseInt( getCookie(exerciseName) );
 		}
 		//add working weight slider, working sets and 1rm
-		$('<p></p>Working Weight<input class="slider" id='+exerciseName+'Weight type="range" value='+weight+' min='+slider[getCookie('lbkg')][0]+' max='+slider[getCookie('lbkg')][1]+' step='+slider[getCookie('lbkg')][2]+' /><div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+exerciseName+'warmup1></div><div class='+exerciseName+'warmup2></div><div class='+exerciseName+'warmup3></div><div class="work" class='+exerciseName+'warmup4></div></div><br /><div class ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
+		$('<p></p>Working Weight<input class="slider" id='+exerciseName+'Weight type="range" value='+weight+' min='+slider[getCookie('lbkg')][0]+' max='+slider[getCookie('lbkg')][1]+' step='+slider[getCookie('lbkg')][2]+' /><div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+exerciseName+'warmup1></div><div class='+exerciseName+'warmup2></div><div class='+exerciseName+'warmup3></div><div class='+exerciseName+'warmup4></div></div><br /><div class ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
 
 		//set warmup divs
 		calculateWarmups(exerciseName, weight);
