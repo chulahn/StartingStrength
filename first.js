@@ -227,6 +227,34 @@ function weightStandard(exercise, wc, oneRM) {
 
 $(document).ready(function () {
 
+// 	$('#plates input').each(function () {
+		
+
+
+// 				// $('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
+// 		var currentRadio = $(this).attr('id');
+// 		// console.log(currentRadio);
+// 		console.log($('label[for="'+currentRadio+'"]').text());
+// 		$('#'+currentRadio+'').prop("checked", '');
+// 		// $('label[for="'+currentRadio+'"]').prop('checked','');
+// 		// $('label[for='+currentRadio+']').addClass('ui-checkbox-off');
+// 		// $('label[for='+currentRadio+']').removeClass('ui-checkbox-on');
+// 		// $('label[for='+currentRadio+']').removeClass('ui-btn-active');
+
+// 		//for each stored plate
+// 		for (i=0; i<$.parseJSON(getCookie('plates')).length; i++) {
+// 			//if the number in stored plates is = 	
+// 			if ( parseInt ( $('label[for='+currentRadio+']').text() ) != $.parseJSON(getCookie('plates'))[i] ){
+// 				console.log("match");
+// 				$(this).prop('checked','false');
+
+// 				$(this).addClass('ui-checkbox-off');
+// 				$(this).removeClass('ui-checkbox-on');
+// 				$(this).removeClass('ui-btn-active');
+// 			}
+// 		}
+// });
+
 	//finds weight class
 	var bodyweight=getCookie('bodyweight');
 	var wc = getWeightClass(bodyweight);
