@@ -230,6 +230,7 @@ $(document).ready(function () {
 	var weightSystem = getCookie('lbkg');
 	//if settings have not been set yet, automatically set to lbs
 	if (weightSystem == ""){
+		console.log("here");
 		setCookie('lbkg',0,30);
 		weightSystem = getCookie('lbkg');
 	}

@@ -39,9 +39,19 @@ th {
 	
 }
 </style>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <script>
+  $(function() {
+    $( "#sortable1, #sortable2, #sortable3" ).sortable({
+      connectWith: ".connectedSortable"
+    }).disableSelection();
+  });
+  </script>
+
 <script src="first.js"></script>
 </head>
 <section id ="main" data-role="page">
@@ -52,6 +62,29 @@ th {
 	</header><!-- header -->
 	
 	<p class="auto-style1">Starting Strength Calculator</p>
+
+<ul id="sortable1" class="connectedSortable">
+  <div data-role="collapsible" class="ui-state-highlight"><h3>Squat</h3>
+	<p>I'm the collapsible set content for section 1.</p></div>
+</ul>
+ 
+<ul id="sortable2" class="connectedSortable">
+  <div data-role="collapsible" class="ui-state-highlight"><h3>Deadlift</h3>
+	<p>I'm the collapsible set content for section 1.</p></div>
+  <div data-role="collapsible" class="ui-state-highlight"><h3>Bench</h3>
+	<p>I'm the collapsible set content for section 1.</p></div>
+  <div data-role="collapsible" class="ui-state-highlight"><h3>Power Clean</h3>
+	<p>I'm the collapsible set content for section 1.</p></div>
+  <div data-role="collapsible" class="ui-state-highlight"><h3>Military Press</h3>
+	<p>I'm the collapsible set content for section 1.</p></div>
+</ul>
+
+<ul id="sortable3" class="connectedSortable">
+  <div data-role="collapsible" class="ui-state-highlight"><h3>Squat</h3>
+	<p>I'm the collapsible set content for section 1.</p></div>
+</ul>
+
+
 	<input type="number" id="bodyweight" value placeholder="Enter Weight Here">
 		<a href="#Squat" data-role="button">Squat</a>
 		<a href="#Bench" data-role="button">Bench</a>
@@ -60,6 +93,7 @@ th {
 		<a href="#Row" data-role="button">Pendlay Row</a>
 		<a href="#PC" data-role="button">Power Cleans</a>
 		
+		<a href="#Workouts">Workouts</a>
 		<a href="#Settings" data-transition="slidedown">Settings</a>
 
 </section>
