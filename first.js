@@ -227,6 +227,30 @@ function weightStandard(exercise, wc, oneRM) {
 
 $(document).ready(function () {
 
+	//when page loads, determine if in lb or kg, and check appropriate box and set plates
+	var weightSystem = getCookie('lbkg');
+	//if settings have not been set yet, automatically set to lbs
+	if (weightSystem == ""){
+		console.log("here");
+		setCookie('lbkg',0,30);
+		weightSystem = getCookie('lbkg');
+	}
+
+	var numPlates = $('#plates input').length;
+	if (weightSystem == "1") {
+		$('#radio-choice-h-2b').prop('checked',"checked");
+		$('#radio-choice-h-2a').prop('checked',"");	
+	}
+	if (weightSystem == "0") {
+		$('#radio-choice-h-2b').prop('checked',"");
+		$('#radio-choice-h-2a').prop('checked',"checked");		
+	}
+	for (i=0; i<numPlates+1; i++) {
+		$('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
+	}
+
+	setPlates();
+
 // 	$('#plates input').each(function () {
 		
 
@@ -268,26 +292,6 @@ $(document).ready(function () {
 		setPlates();
 		console.log(getCookie('plates'));
 	})
-
-	//when page loads, determine if in lb or kg, and check appropriate box and set plates
-	var weightSystem = getCookie('lbkg');
-	//if settings have not been set yet, automatically set to lbs
-	if (weightSystem == ""){
-		setCookie('lbkg',0,30);
-		weightSystem = getCookie('lbkg');
-	}
-	var numPlates = $('#plates input').length;
-	if (weightSystem == "1") {
-		$('#radio-choice-h-2b').prop('checked',"checked");
-		$('#radio-choice-h-2a').prop('checked',"");	
-	}
-	if (weightSystem == "0") {
-		$('#radio-choice-h-2b').prop('checked',"");
-		$('#radio-choice-h-2a').prop('checked',"checked");		
-	}
-	for (i=0; i<numPlates+1; i++) {
-		$('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
-	}
 
 	//handler for lbkg to set weight system, slider, and strength standard table
 	$('#weightSystem').change(function () {
