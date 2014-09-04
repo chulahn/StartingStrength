@@ -41,16 +41,42 @@ th {
 </style>
 
   <style>
-  #sortable1, #sortable2, #sortable3 {
+  #sortable1 {
     border: 1px solid #eee;
     width: 20%;
     min-height: 20px;
     list-style-type: none;
     margin: 0;
-    padding: 5px 1% 0 1%;
-    float: left;
+    padding: 1% 1% 0 1%;
+	float: left;
     margin-right: 10px;
   }
+  #sortable2 {
+	border: 1px solid #eee;
+    width: 20%;
+    min-height: 20px;
+    list-style-type: none;
+    margin: 0;
+    float: none;
+    padding: 1% 1% 0 1%;
+    margin-right: 10px;
+
+	}
+	
+	#sortable3 {
+	border: 1px solid #eee;
+    width: 20%;
+    min-height: 20px;
+    list-style-type: none;
+    margin: 0;
+    padding: 1% 1% 0 1%;
+	float: right;
+    margin-right: 10px;
+
+	}
+
+  
+  
   #sortable1 li, #sortable2 li, #sortable3 li {
     margin: 0 5px 5px 5px;
     padding: 5px;
@@ -62,6 +88,7 @@ th {
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
 <script src="javascripts/jquery-ui.min.js"></script>
+<script src="javascripts/jquery.ui.touch-punch.min.js</script>
 <script>
   $(function() {
     $( "#sortable1, #sortable2, #sortable3" ).sortable({
@@ -80,28 +107,6 @@ th {
 	</header><!-- header -->
 	
 	<p class="auto-style1">Starting Strength Calculator</p>
-
-<ul id="sortable1" class="connectedSortable">
-  <div data-role="collapsible" class="ui-state-highlight"><h3>Squat</h3>
-	<p>I'm the collapsible set content for section 1.</p></div>
-</ul>
- 
-<ul id="sortable2" class="connectedSortable">
-  <div data-role="collapsible" class="ui-state-highlight"><h3>Deadlift</h3>
-	<p>I'm the collapsible set content for section 1.</p></div>
-  <div data-role="collapsible" class="ui-state-highlight"><h3>Bench</h3>
-	<p>I'm the collapsible set content for section 1.</p></div>
-  <div data-role="collapsible" class="ui-state-highlight"><h3>Power Clean</h3>
-	<p>I'm the collapsible set content for section 1.</p></div>
-  <div data-role="collapsible" class="ui-state-highlight"><h3>Military Press</h3>
-	<p>I'm the collapsible set content for section 1.</p></div>
-</ul>
-
-<ul id="sortable3" class="connectedSortable">
-  <div data-role="collapsible" class="ui-state-highlight"><h3>Squat</h3>
-	<p>I'm the collapsible set content for section 1.</p></div>
-</ul>
-
 
 	<input type="number" id="bodyweight" value placeholder="Enter Weight Here">
 		<a href="#Squat" data-role="button">Squat</a>
@@ -151,37 +156,66 @@ th {
 </section>
 
 <section id="Settings" data-role="page">
-<form>
-<fieldset id="weightSystem" data-role="controlgroup" data-type="horizontal">
-    <legend>Pounds or Kg</legend>
-    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a"  checked="checked" onclick="setCookie('lbkg',0,30)" >
-    <label for="radio-choice-h-2a">Lb</label>
-    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" checked="" onclick="setCookie('lbkg',1,30)">
-    <label for="radio-choice-h-2b">Kg</label>
-</fieldset>
-<form>
-<fieldset id="plates" data-role="controlgroup" data-type="horizontal">
-    <legend>Plates:</legend>
-    <input type="checkbox" name="checkbox-h-2a" id="plate0" checked="checked">
-    <label class="plate" for="plate0">45</label></input>
-    <input type="checkbox" name="checkbox-h-2b" id="plate1" checked="checked">
-    <label class="plate" for="plate1">35</label>
-    <input type="checkbox" name="checkbox-h-2c" id="plate2" checked="checked">
-    <label class="plate" for="plate2">25</label>
-    <input type="checkbox" name="checkbox-h-2d" id="plate3" checked="checked">
-    <label class="plate" for="plate3">10</label>
-    <input type="checkbox" name="checkbox-h-2e" id="plate4" checked="checked">
-    <label class="plate" for="plate4">5</label>
-    <input type="checkbox" name="checkbox-h-2f" id="plate5" checked="checked">
-    <label class="plate" for="plate5">2.5</label>
-</fieldset>
-</form>
+	<form>
+		<fieldset id="weightSystem" data-role="controlgroup" data-type="horizontal">
+		    <legend>Pounds or Kg</legend>
+		    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a"  checked="checked" onclick="setCookie('lbkg',0,30)" >
+		    <label for="radio-choice-h-2a">Lb</label>
+		    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" checked="" onclick="setCookie('lbkg',1,30)">
+		    <label for="radio-choice-h-2b">Kg</label>
+		</fieldset>
+	<form>
+		<fieldset id="plates" data-role="controlgroup" data-type="horizontal">
+		    <legend>Plates:</legend>
+		    <input type="checkbox" name="checkbox-h-2a" id="plate0" checked="checked">
+		    <label class="plate" for="plate0">45</label></input>
+		    <input type="checkbox" name="checkbox-h-2b" id="plate1" checked="checked">
+		    <label class="plate" for="plate1">35</label>
+		    <input type="checkbox" name="checkbox-h-2c" id="plate2" checked="checked">
+		    <label class="plate" for="plate2">25</label>
+		    <input type="checkbox" name="checkbox-h-2d" id="plate3" checked="checked">
+		    <label class="plate" for="plate3">10</label>
+		    <input type="checkbox" name="checkbox-h-2e" id="plate4" checked="checked">
+		    <label class="plate" for="plate4">5</label>
+		    <input type="checkbox" name="checkbox-h-2f" id="plate5" checked="checked">
+		    <label class="plate" for="plate5">2.5</label>
+		</fieldset>
+	</form>
 
 	<p><a data-rel="back" data-theme="e">Back</a>
 	</p>
-
 </section>
 
+<section id="Workouts" data-role="page">
+	<center>
+		<ul id="sortable1" class="connectedSortable">
+		  <div data-role="collapsible" class="ui-state-highlight">
+			  <h3 class="auto-style2">Squat</h3>
+			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
+		</ul>
+
+		<ul id="sortable2" class="connectedSortable">
+		  <div data-role="collapsible" class="ui-state-highlight">
+			  <h3 class="auto-style2">Deadlift</h3>
+			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
+		  <div data-role="collapsible" class="ui-state-highlight">
+			  <h3 class="auto-style2">Bench</h3>
+			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
+		  <div data-role="collapsible" class="ui-state-highlight">
+			  <h3 class="auto-style2">Power Clean</h3>
+			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
+		  <div data-role="collapsible" class="ui-state-highlight">
+			  <h3 class="auto-style2">Military Press</h3>
+			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
+		</ul>
+	
+		<ul id="sortable3" class="connectedSortable">
+		  <div data-role="collapsible" class="ui-state-highlight">
+			  <h3 class="auto-style2">Squat</h3>
+			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
+		</ul>
+	</center>
+</section>
 
 
 </body>
