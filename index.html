@@ -41,47 +41,42 @@ th {
 </style>
 
   <style>
-  #sortable1 {
+  #workoutdiv {
+  float:left;
+  width: 100%;
+  position:relative;
+  overflow:hidden;
+	
+}
+  
+  #sortable1,#sortable2, #sortable3 {
+    display:inline-block;
+	position:relative;
     border: 1px solid #eee;
     width: 20%;
     min-height: 20px;
     list-style-type: none;
-    margin: 0;
+    margin: 1% auto;
     padding: 1% 1% 0 1%;
 	float: left;
-    margin-right: 10px;
   }
+  #sortable1 {
+	left:0%
+}
   #sortable2 {
-	border: 1px solid #eee;
-    width: 20%;
-    min-height: 20px;
-    list-style-type: none;
-    margin: 0;
-    float: none;
-    padding: 1% 1% 0 1%;
-    margin-right: 10px;
-
-	}
-	
-	#sortable3 {
-	border: 1px solid #eee;
-    width: 20%;
-    min-height: 20px;
-    list-style-type: none;
-    margin: 0;
-    padding: 1% 1% 0 1%;
-	float: right;
-    margin-right: 10px;
-
-	}
-
+	left:16.7%
+}
+  #sortable3 {
+	left:33.4%
+}
+  
   
   
   #sortable1 li, #sortable2 li, #sortable3 li {
     margin: 0 5px 5px 5px;
     padding: 5px;
     font-size: 1.2em;
-    width: 150px;
+    width: 20%;
   }
   </style>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
@@ -187,8 +182,8 @@ th {
 </section>
 
 <section id="Workouts" data-role="page">
-	<center>
-		<ul id="sortable1" class="connectedSortable">
+	<div class="workoutdiv">
+		<ul id="sortable1" class="connectedSortable"> Workout A
 		  <div data-role="collapsible" class="ui-state-highlight">
 			  <h3 class="auto-style2">Squat</h3>
 			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
@@ -209,12 +204,12 @@ th {
 			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
 		</ul>
 	
-		<ul id="sortable3" class="connectedSortable">
+		<ul id="sortable3" class="connectedSortable"> Workout B
 		  <div data-role="collapsible" class="ui-state-highlight">
 			  <h3 class="auto-style2">Squat</h3>
 			<p class="auto-style2">I'm the collapsible set content for section 1.</p></div>
 		</ul>
-	</center>
+	</div>
 </section>
 
 
