@@ -226,7 +226,7 @@ function weightStandard(exercise, wc, oneRM) {
 }
 
 $(document).ready(function () {
-
+	console.log($.parseJSON(getCookie('plates')));
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
 	//if settings have not been set yet, automatically set to lbs
@@ -235,7 +235,7 @@ $(document).ready(function () {
 		setCookie('lbkg',0,30);
 		weightSystem = getCookie('lbkg');
 	}
-
+	//depending on whether lb or kg, set settings
 	var numPlates = $('#plates input').length;
 	if (weightSystem == "1") {
 		$('#radio-choice-h-2b').prop('checked',"checked");
@@ -248,36 +248,19 @@ $(document).ready(function () {
 	for (i=0; i<numPlates+1; i++) {
 		$('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
 	}
+	//sets lbkg cookie to be used in calculating what plates to add
+	if (getCookie('plates') == ""){
+		setPlates();
+	}
+	$('#plates input').each(function () {
 
-	setPlates();
+		var currentRadio = $(this).attr('id');
 
-// 	$('#plates input').each(function () {
-		
-
-
-// 				// $('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
-// 		var currentRadio = $(this).attr('id');
-// 		// console.log(currentRadio);
-// 		console.log($('label[for="'+currentRadio+'"]').text());
-// 		$('#'+currentRadio+'').prop("checked", '');
-// 		// $('label[for="'+currentRadio+'"]').prop('checked','');
-// 		// $('label[for='+currentRadio+']').addClass('ui-checkbox-off');
-// 		// $('label[for='+currentRadio+']').removeClass('ui-checkbox-on');
-// 		// $('label[for='+currentRadio+']').removeClass('ui-btn-active');
-
-// 		//for each stored plate
-// 		for (i=0; i<$.parseJSON(getCookie('plates')).length; i++) {
-// 			//if the number in stored plates is = 	
-// 			if ( parseInt ( $('label[for='+currentRadio+']').text() ) != $.parseJSON(getCookie('plates'))[i] ){
-// 				console.log("match");
-// 				$(this).prop('checked','false');
-
-// 				$(this).addClass('ui-checkbox-off');
-// 				$(this).removeClass('ui-checkbox-on');
-// 				$(this).removeClass('ui-btn-active');
-// 			}
-// 		}
-// });
+		// if plate is not in plates cookie, uncheck it
+		if ( $.inArray( parseFloat ( $('label[for='+currentRadio+']').text() ) , $.parseJSON(getCookie('plates')) ) == -1 ) {
+			$(this).prop('checked','');
+		}
+});
 
 	//finds weight class
 	var bodyweight=getCookie('bodyweight');
