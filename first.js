@@ -301,6 +301,7 @@ $(document).ready(function () {
 		}
 		//add working weight slider, working sets and 1rm
 		$('<p></p>Working Weight<input class="slider" id='+exerciseName+'Weight type="range" value='+weight+' min='+slider[getCookie('lbkg')][0]+' max='+slider[getCookie('lbkg')][1]+' step='+slider[getCookie('lbkg')][2]+' /><div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div id='+exerciseName+'warmup1></div><div id='+exerciseName+'warmup2></div><div id='+exerciseName+'warmup3></div><div class="work" id='+exerciseName+'warmup4></div></div><br /><div id ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
+
 		//set warmup divs
 		calculateWarmups(exerciseName, weight);
 		//weight standards table
