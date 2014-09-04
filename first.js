@@ -6,7 +6,7 @@ var weightClass = [[114,123,132,148,165,181,198,220,242,275,319,"320+"], [52,56,
 var plates = [[45,35,25,10,5,2.5] ,[20,15,10,5,2.5,1]];
 var slider = [[45,500,5],[20,250,2.5]];
 var eName = ["Squat", "Bench", "Deadlift", "OHP", "Row", "PC"];
-var exercises = ["Squat", "Bench Press", "Deadlift", "Overhead Press", "Pendlay Rows", "Power Cleans"];
+var exercises = ["Squat", "Bench Press", "Deadlift", "Overhead Press", "Pendlay Row", "Power Clean"];
 var standard = ["Untrained", "Novice", "Intermediate", "Advanced", "Elite"];
 //[determines lb or kg][determines which weight class][determines which strength standard]
 var OHPStandards = [
@@ -61,11 +61,11 @@ function calculateWarmups(exerciseName, weight){
 					set[j] += "x5x3"
 				}
 				set[j] += " "  + numToPlate(mult);
-				$('#'+exerciseName+'warmup'+[j]).html(set[j]);
+				$('.'+exerciseName+'warmup'+[j]).html(set[j]);
 				setCookie(exerciseName, weight, 30);
 			}
 			max = Math.round(weight / (1.0278 - (.0278 * 5)));
-			$('#'+exerciseName+'max').html("Your 1 Rep Max is " + max + " "  + numToPlate(max));
+			$('.'+exerciseName+'max').html("Your 1 Rep Max is " + max + " "  + numToPlate(max));
 			$('#'+exerciseName+'Standard').html("You are in the category "+ standard[weightStandard(exerciseName, getWeightClass(getCookie('bodyweight')), max)]);
 }
 function getCookie(cname) {
@@ -269,6 +269,18 @@ $(document).ready(function () {
 		wc = getWeightClass($(this).val());
 	});
 
+	$('.workoutdiv div[data-role="collapsible"]').each( function() {
+		var arrayIndex = $.inArray($(this).children('h3').text(),exercises);
+		console.log (arrayIndex);
+		console.log(eName[arrayIndex]);
+		var a = eName[arrayIndex];
+		$(this).children('p').html('<div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+a+'warmup1></div><div class='+a+'warmup2></div><div class='+a+'warmup3></div><div class="work" class='+a+'warmup4></div></div>');
+
+		
+	});
+
+	$('.workoutdiv div[data-role="collapsible"] h3 a').each( function() { console.log($(this).text()); });
+
 	//set plates
 	$('#plates').change(function () {
 		setPlates();
@@ -300,7 +312,7 @@ $(document).ready(function () {
 			weight = parseInt( getCookie(exerciseName) );
 		}
 		//add working weight slider, working sets and 1rm
-		$('<p></p>Working Weight<input class="slider" id='+exerciseName+'Weight type="range" value='+weight+' min='+slider[getCookie('lbkg')][0]+' max='+slider[getCookie('lbkg')][1]+' step='+slider[getCookie('lbkg')][2]+' /><div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div id='+exerciseName+'warmup1></div><div id='+exerciseName+'warmup2></div><div id='+exerciseName+'warmup3></div><div class="work" id='+exerciseName+'warmup4></div></div><br /><div id ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
+		$('<p></p>Working Weight<input class="slider" id='+exerciseName+'Weight type="range" value='+weight+' min='+slider[getCookie('lbkg')][0]+' max='+slider[getCookie('lbkg')][1]+' step='+slider[getCookie('lbkg')][2]+' /><div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+exerciseName+'warmup1></div><div class='+exerciseName+'warmup2></div><div class='+exerciseName+'warmup3></div><div class="work" class='+exerciseName+'warmup4></div></div><br /><div class ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
 
 		//set warmup divs
 		calculateWarmups(exerciseName, weight);
