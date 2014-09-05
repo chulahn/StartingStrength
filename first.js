@@ -229,6 +229,32 @@ function weightStandard(exercise, wc, oneRM) {
 
 
 $(document).ready(function () {
+
+	//create footer
+	$(document).on("pageshow", "[data-role='page']", function() {
+
+		if ($(this).hasClass("default_footer")) {
+
+			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-home">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
+		}
+		else if ($(this).attr('id') == "Workouts") {
+			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#main" class ="ui-btn-icon-top ui-btn ui-icon-home">Exercises</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
+
+		}
+		
+
+		// if ($($(this)).hasClass("default_header")) {
+		// 	console.log(1);
+		// 	console.log($(this).attr('id'));
+		// }
+		// else {
+		// 	console.log(2);
+		// 	console.log($(this).attr('id'));
+		// 	$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Home" class ="ui-btn-icon-top ui-btn ui-icon-home">Home</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
+		// }
+	});
+
+
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
 	//if settings have not been set yet, automatically set to lbs
