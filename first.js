@@ -8,6 +8,7 @@ var slider = [[45,500,5],[20,250,2.5]];
 var eName = ["Squat", "Bench", "Deadlift", "OHP", "Row", "PC"];
 var exercises = ["Squat", "Bench Press", "Deadlift", "Overhead Press", "Pendlay Row", "Power Clean"];
 var standard = ["Untrained", "Novice", "Intermediate", "Advanced", "Elite"];
+var defaultWorkout = [[0,1,2],[5],[0,3,4]];
 //[determines lb or kg][determines which weight class][determines which strength standard]
 var OHPStandards = [
 [[55,75,90,110,130], [60,80,100,115,140], [65,85,105,125,150], [70,95,120,140,170] ,
@@ -225,15 +226,21 @@ function weightStandard(exercise, wc, oneRM) {
 	return w;
 }
 
+
+
 $(document).ready(function () {
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
 	//if settings have not been set yet, automatically set to lbs
 	if (weightSystem == ""){
-		console.log("here");
 		setCookie('lbkg',0,30);
 		weightSystem = getCookie('lbkg');
 	}
+	//if no workout has been set, automatically set
+	if (getCookie('workout') == "") {
+		setCookie('workout', JSON.stringify(defaultWorkout),30);
+	}
+
 	//depending on whether lb or kg, set settings
 	var numPlates = $('#plates input').length;
 	if (weightSystem == "1") {
@@ -252,14 +259,83 @@ $(document).ready(function () {
 		setPlates();
 	}
 	$('#plates input').each(function () {
-
 		var currentRadio = $(this).attr('id');
 
 		// if plate is not in plates cookie, uncheck it
 		if ( $.inArray( parseFloat ( $('label[for='+currentRadio+']').text() ) , $.parseJSON(getCookie('plates')) ) == -1 ) {
 			$(this).prop('checked','');
 		}
-});
+	});
+
+	//when a object in sortable list is dropped
+	$('.connectedSortable').sortable({
+   		stop: function(event, ui) {
+   			var workouts = [[],[],[]]; 
+   			for (i=0; i<3; i++) {
+   				//for each item that is in the table
+   				count=0;
+   				$('#sortable'+(i+1)+' div[data-role="collapsible"] h3').each( function () {
+   					//get the index in exercises and store that number in array
+   					text = $(this).text().replace(" click to expand contents", "");
+   					text = text.replace(" click to collapse contents", "");
+   					console.log(text);
+   					var arrayIndex = $.inArray( text , exercises);
+   					workouts[i][count]= arrayIndex;
+   					console.log(arrayIndex);
+   					count++;
+   				});
+
+   			}
+   			//set workout cookie
+   			setCookie('workout', JSON.stringify(workouts), 30);
+   			console.log($.parseJSON(getCookie('workout')));
+   		}
+	});
+
+	//creates the workout from cookie
+	output1 = '';
+	for (i=0; i<$.parseJSON(getCookie('workout'))[0].length; i++) {
+		output1 += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
+		output1 += eName[$.parseJSON(getCookie('workout'))[0][i]];
+		output1 += ' ">';
+		output1 += "<h3>"
+		output1 += exercises[$.parseJSON(getCookie('workout'))[0][i]];
+		output1 += "</h3><p></p></div>";
+	}
+	output2 = '';
+	for (i=0; i<$.parseJSON(getCookie('workout'))[1].length; i++) {
+		output2 += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
+		output2 += eName[$.parseJSON(getCookie('workout'))[1][i]];
+		output2 += ' ">';
+		output2 += "<h3>"
+		output2 += exercises[$.parseJSON(getCookie('workout'))[1][i]];
+		output2 += "</h3><p></p></div>";
+	}
+	output3 = '';
+	for (i=0; i<$.parseJSON(getCookie('workout'))[2].length; i++) {
+		output3 += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
+		output3 += eName[$.parseJSON(getCookie('workout'))[2][i]];
+		output3 += ' ">';
+		output3 += "<h3>"
+		output3 += exercises[$.parseJSON(getCookie('workout'))[2][i]];
+		output3 += "</h3><p></p></div>";
+	}
+	$('#sortable1').html(output1);
+	$('#sortable2').html(output2);
+	$('#sortable3').html(output3);
+
+	$('.workoutdiv div[data-role="collapsible"]').change(function() {
+		text = $(this).text().replace("I'm the collapsible set content for section 1.","");
+		text = text.trim();
+		console.log(text);
+		// console.log($(this).text().replace("I'm the collapsible set content for section 1.",""));
+				// console.log($(this).text().replace(" ",""));
+		// console.log(text);
+		if (text == "Squat") {
+			console.log("True");
+		}
+		console.log($(this).parent().attr('id'));
+	});
 
 	//finds weight class
 	var bodyweight=getCookie('bodyweight');
@@ -273,12 +349,8 @@ $(document).ready(function () {
 	$('.workoutdiv div[data-role="collapsible"]').each( function() {
 		var arrayIndex = $.inArray($(this).children('h3').text(),exercises);
 		var a = eName[arrayIndex];
-		$(this).children('p').html('<div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+a+'warmup1></div><div class='+a+'warmup2></div><div class='+a+'warmup3></div><div class='+a+'warmup4></div></div>');
-
-		
+		$(this).children('p').html('<div id="Sets"><div>'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+a+'warmup1></div><div class='+a+'warmup2></div><div class='+a+'warmup3></div><div class='+a+'warmup4></div></div>');		
 	});
-
-	$('.workoutdiv div[data-role="collapsible"] h3 a').each( function() { console.log($(this).text()); });
 
 	//set plates
 	$('#plates').change(function () {
@@ -293,7 +365,7 @@ $(document).ready(function () {
 		$('.slider').attr('min' ,slider[getCookie('lbkg')][0]);
 		$('.slider').attr('max' ,slider[getCookie('lbkg')][1]);
 		$('.slider').attr('step' ,slider[getCookie('lbkg')][2]);
-	}
+		}
 		for (j=0; j<eName.length; j++) {
 			calculateStrengthStandards(eName[j]);
 		}
@@ -321,7 +393,6 @@ $(document).ready(function () {
 		calculateStrengthStandards(exerciseName);
 	});
 
-
 	//create handler for input
 	$(document).on('pageshow', ".Exercise", function(){
 		bodyweight = getCookie('bodyweight');
@@ -338,4 +409,5 @@ $(document).ready(function () {
 			}
 		});
 	});
+
 });
