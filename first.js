@@ -70,6 +70,11 @@ function calculateWarmups(exerciseName, weight){
 			$('.'+exerciseName+'max').html("Your 1 Rep Max is " + max + " "  + numToPlate(max));
 			$('#'+exerciseName+'Standard').html("You are in the category "+ standard[weightStandard(exerciseName, getWeightClass(getCookie('bodyweight')), max)]);
 }
+
+function oneRM(weight) {
+	return Math.round(weight / (1.0278 - (.0278 * 5)));
+}
+
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -111,11 +116,8 @@ function setPlates() {
 function calculateStrengthStandards(exerciseName){
 		$('.tab th:even').html(lbkg[getCookie('lbkg')]);
 		$('#'+exerciseName+'Tab th:eq(1)').html($('#'+exerciseName).children("h1").text());
-		//can hardcode 13
-		// var rows = $('#'+exerciseName+'Tab td:nth-child(1)').length;
 		var rows = 13;
 		var columns = 6;
-
 		for (i=0; i<rows-1; i++) {
 			$('#'+exerciseName+'Tab tr:eq('+(i+2)+') td:eq(0)').html(weightClass[getCookie('lbkg')][i]);
 			$('#'+exerciseName+'Tab tr:eq('+(i+2)+') td:eq(0)').css("width","20%");
@@ -228,6 +230,11 @@ function weightStandard(exercise, wc, oneRM) {
 	return w;
 }
 
+function updateStandard(exerciseName) {
+	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+')').addClass('weightclass');
+	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+') td:eq('+(weightStandard(exerciseName, (getWeightClass(getCookie('bodyweight'))+2) , oneRM(getCookie(exerciseName)) )+1)+')').addClass('work');
+}
+
 
 
 $(document).ready(function () {
@@ -236,16 +243,12 @@ $(document).ready(function () {
 
 	//create footer
 	$(document).on("pageshow", "[data-role='page']", function() {
-
 		if ($(this).hasClass("default_footer")) {
-
 			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-home">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
 		}
 		else if ($(this).attr('id') == "Workouts") {
 			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#main" class ="ui-btn-icon-top ui-btn ui-icon-home">Exercises</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
-
 		}
-		
 	});
 
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
@@ -261,9 +264,8 @@ $(document).ready(function () {
 	}
 
 	if ( getCookie('bodyweight') != "" && getCookie('bodyweight') != 0) {
-		$('#bodyweight').attr('placeholder', getCookie('bodyweight')+lbkg[getCookie('lbkg')]);
+		$('#bodyweight').attr('placeholder', "Your weight is"+ getCookie('bodyweight')+lbkg[getCookie('lbkg')]);
 	}
-
 	if ( getCookie('bodyweight') == "" || getCookie('bodyweight') == 0) {
 		$('#bodyweight').attr('placeholder', "Enter Weight");
 	}
@@ -299,7 +301,6 @@ $(document).ready(function () {
 	}
 	$('#plates input').each(function () {
 		var currentRadio = $(this).attr('id');
-
 		// if plate is not in plates cookie, uncheck it
 		if ( $.inArray( parseFloat ( $('label[for='+currentRadio+']').text() ) , $.parseJSON(getCookie('plates')) ) == -1 ) {
 			$(this).prop('checked','');
@@ -367,9 +368,6 @@ $(document).ready(function () {
 		text = $(this).text().replace("I'm the collapsible set content for section 1.","");
 		text = text.trim();
 		console.log(text);
-		// console.log($(this).text().replace("I'm the collapsible set content for section 1.",""));
-				// console.log($(this).text().replace(" ",""));
-		// console.log(text);
 		if (text == "Squat") {
 			console.log("True");
 		}
@@ -434,6 +432,8 @@ $(document).ready(function () {
 		$('<div data-role="collapsible"><h3>Strength Standards</h3><div id='+exerciseName+'Tab class="tab"><table align="center" style="width: 30%; height: 160px;" class="auto-style2"><tr><th></th><th colspan="5"></th></tr><tr><td>Body Weight</td><td>Untrained</td><td>Novice</td><td>Intermediate</td><td>Advanced</td><td>Elite</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td><td style="height: 26px"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></div></div>').appendTo($(this));
 
 		calculateStrengthStandards(exerciseName);
+
+		updateStandard(exerciseName);
 	});
 
 	//create handler for input
@@ -450,8 +450,6 @@ $(document).ready(function () {
 			$('.wc').html('');
 		}
 		
-
-
 		var exerciseName = $(this).attr('id');
 
 		$('#'+exerciseName+'Weight').change(function (e) {
@@ -460,6 +458,8 @@ $(document).ready(function () {
 			{
 				calculateWarmups(exerciseName, weight);
 			}
+			$('td').removeClass('work');
+			updateStandard(exerciseName);
 		});
 	});
 
