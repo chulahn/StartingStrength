@@ -274,6 +274,18 @@ $(document).ready(function () {
 		$('#radio-choice-h-2b').prop('checked',"");
 		$('#radio-choice-h-2a').prop('checked',"checked");		
 	}
+
+	var gender = getCookie('gender');
+
+	if (gender == "1") {
+		$('#genderb').prop('checked',"checked");
+		$('#gendera').prop('checked',"");	
+	}
+	if (gender == "0") {
+		$('#genderb').prop('checked',"");
+		$('#gendera').prop('checked',"checked");		
+	}
+
 	for (i=0; i<numPlates+1; i++) {
 		$('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
 	}
@@ -398,8 +410,12 @@ $(document).ready(function () {
 	$('.Exercise').each(function () {
 		var exerciseName = $(this).attr('id');
 		$('<header data-theme="b" data-role="header"><h1>'+$(this).children("h1").text()+'</h1><a href="#" class ="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-back ui-btn-icon-left" data-rel="back">Back</a><a href="#" class ="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-gear ui-btn-icon-left">Settings</a></header>').prependTo($(this));
-		$(this).append('<h2 class="bw"> Your bodyweight is '+bodyweight+' '+lbkg[getCookie('lbkg')]+' <h3 class="wc"> You are in the ' + weightClass[getCookie('lbkg')][wc]+ ' '+ lbkg[getCookie('lbkg')]+' weight class');
-
+		if (bodyweight != "") {
+			$(this).append('<h2 class="bw"> Your bodyweight is '+bodyweight+' '+lbkg[getCookie('lbkg')]+' <h3 class="wc"> You are in the ' + weightClass[getCookie('lbkg')][wc]+ ' '+ lbkg[getCookie('lbkg')]+' weight class');
+		}
+		if (bodyweight == "") {
+		$(this).append('<h2 class="bw">Enter a bodyweight');
+		}
 		//if weight was set before, set the input value
 		var weight=40;
 		if (getCookie(exerciseName) != ""){
@@ -420,8 +436,18 @@ $(document).ready(function () {
 	$(document).on('pageshow', ".Exercise", function(){
 		bodyweight = getCookie('bodyweight');
 		wc = getWeightClass(bodyweight);
-		$('.bw').html('Your bodyweight is '+bodyweight+' '+lbkg[getCookie('lbkg')]+'');
-		$('.wc').html(' You are in the ' + weightClass[getCookie('lbkg')][wc]+ ' '+ lbkg[getCookie('lbkg')]+' weight class');
+		if (bodyweight != "") {
+			$('.bw').html('Your bodyweight is '+bodyweight+' '+lbkg[getCookie('lbkg')]+'');
+			$('.wc').html(' You are in the ' + weightClass[getCookie('lbkg')][wc]+ ' '+ lbkg[getCookie('lbkg')]+' weight class');
+		}
+
+		if (bodyweight == "") {
+			$('.bw').html('Enter a bodyweight');
+			$('.wc').html('');
+		}
+		
+
+
 		var exerciseName = $(this).attr('id');
 
 		$('#'+exerciseName+'Weight').change(function (e) {
