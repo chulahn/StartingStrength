@@ -260,8 +260,12 @@ $(document).ready(function () {
 		setCookie('workout', JSON.stringify(defaultWorkout),30);
 	}
 
-	if (getCookie('bodyweight') != "") {
-		$('#bodyweight').attr('placeholder', "Your bodyweight is "+getCookie('bodyweight')+lbkg[getCookie('lbkg')]);
+	if ( getCookie('bodyweight') != "" && getCookie('bodyweight') != 0) {
+		$('#bodyweight').attr('placeholder', getCookie('bodyweight')+lbkg[getCookie('lbkg')]);
+	}
+
+	if ( getCookie('bodyweight') == "" || getCookie('bodyweight') == 0) {
+		$('#bodyweight').attr('placeholder', "Enter Weight");
 	}
 
 	//depending on whether lb or kg, set settings
@@ -410,10 +414,10 @@ $(document).ready(function () {
 	$('.Exercise').each(function () {
 		var exerciseName = $(this).attr('id');
 		$('<header data-theme="b" data-role="header"><h1>'+$(this).children("h1").text()+'</h1><a href="#" class ="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-back ui-btn-icon-left" data-rel="back">Back</a><a href="#" class ="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-gear ui-btn-icon-left">Settings</a></header>').prependTo($(this));
-		if (bodyweight != "") {
+		if (bodyweight != "" && bodyweight != 0) {
 			$(this).append('<h2 class="bw"> Your bodyweight is '+bodyweight+' '+lbkg[getCookie('lbkg')]+' <h3 class="wc"> You are in the ' + weightClass[getCookie('lbkg')][wc]+ ' '+ lbkg[getCookie('lbkg')]+' weight class');
 		}
-		if (bodyweight == "") {
+		if (bodyweight == "" || bodyweight == 0) {
 		$(this).append('<h2 class="bw">Enter a bodyweight');
 		}
 		//if weight was set before, set the input value
@@ -436,12 +440,12 @@ $(document).ready(function () {
 	$(document).on('pageshow', ".Exercise", function(){
 		bodyweight = getCookie('bodyweight');
 		wc = getWeightClass(bodyweight);
-		if (bodyweight != "") {
+		if (bodyweight != "" && bodyweight != 0) {
 			$('.bw').html('Your bodyweight is '+bodyweight+' '+lbkg[getCookie('lbkg')]+'');
 			$('.wc').html(' You are in the ' + weightClass[getCookie('lbkg')][wc]+ ' '+ lbkg[getCookie('lbkg')]+' weight class');
 		}
 
-		if (bodyweight == "") {
+		if (bodyweight == "" || bodyweight == 0) {
 			$('.bw').html('Enter a bodyweight');
 			$('.wc').html('');
 		}
