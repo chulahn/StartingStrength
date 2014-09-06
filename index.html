@@ -99,8 +99,6 @@ th {
 	</header><!-- header -->
 	
 	<p class="auto-style1">Starting Strength Calculator</p>
-
-	<input type="number" id="bodyweight" value placeholder="Enter Weight Here">
 		<a href="#Squat" data-role="button">Squat</a>
 		<a href="#Bench" data-role="button">Bench</a>
 		<a href="#Deadlift" data-role="button">Deadlift</a>
@@ -145,34 +143,45 @@ th {
 </section>
 
 <section id="Settings" data-role="page">
-	<form>
-		<fieldset id="weightSystem" data-role="controlgroup" data-type="horizontal">
-		    <legend>Pounds or Kg</legend>
-		    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a"  checked="checked" onclick="setCookie('lbkg',0,30)" >
-		    <label for="radio-choice-h-2a">Lb</label>
-		    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" checked="" onclick="setCookie('lbkg',1,30)">
-		    <label for="radio-choice-h-2b">Kg</label>
-		</fieldset>
-	<form>
-		<fieldset id="plates" data-role="controlgroup" data-type="horizontal">
-		    <legend>Plates:</legend>
-		    <input type="checkbox" name="checkbox-h-2a" id="plate0" checked="checked">
-		    <label class="plate" for="plate0">45</label></input>
-		    <input type="checkbox" name="checkbox-h-2b" id="plate1" checked="checked">
-		    <label class="plate" for="plate1">35</label>
-		    <input type="checkbox" name="checkbox-h-2c" id="plate2" checked="checked">
-		    <label class="plate" for="plate2">25</label>
-		    <input type="checkbox" name="checkbox-h-2d" id="plate3" checked="checked">
-		    <label class="plate" for="plate3">10</label>
-		    <input type="checkbox" name="checkbox-h-2e" id="plate4" checked="checked">
-		    <label class="plate" for="plate4">5</label>
-		    <input type="checkbox" name="checkbox-h-2f" id="plate5" checked="checked">
-		    <label class="plate" for="plate5">2.5</label>
-		</fieldset>
-	</form>
-
-	<p><a data-rel="back" data-theme="e">Back</a>
-	</p>
+	<div class="auto-style1">	
+		<form>
+			<fieldset id="weightSystem" data-role="controlgroup" data-type="horizontal">
+			    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a"  checked="checked" onclick="setCookie('lbkg',0,30);setPlates()" >
+			    <label for="radio-choice-h-2a">Lb</label>
+			    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" checked="" onclick="setCookie('lbkg',1,30);setPlates()">
+			    <label for="radio-choice-h-2b">Kg</label>
+			</fieldset>
+		</form>
+		<input type="number" class="ui-mini" id="bodyweight" value placeholder="Enter Weight Here"></input>
+		<form>
+			<fieldset id="gender" data-role="controlgroup" data-type="horizontal">
+			    <input type="radio" name="gender" id="gendera"  checked="checked" onclick="setCookie('gender',0,30)" >
+			    <label for="gendera">Male</label>
+			    <input type="radio" name="gender" id="genderb" checked="" onclick="setCookie('gender',1,30)">
+			    <label for="genderb">Female</label>
+			</fieldset>
+		</form>
+		<form>
+			<fieldset id="plates" data-role="controlgroup" data-type="horizontal">
+			    <p>Plates:</p>
+			    <input type="checkbox" name="checkbox-h-2a" id="plate0" checked="checked">
+			    <label class="plate" for="plate0">45</label>
+			    <input type="checkbox" name="checkbox-h-2b" id="plate1" checked="checked">
+			    <label class="plate" for="plate1">35</label>
+			    <input type="checkbox" name="checkbox-h-2c" id="plate2" checked="checked">
+			    <label class="plate" for="plate2">25</label>
+			    <input type="checkbox" name="checkbox-h-2d" id="plate3" checked="checked">
+			    <label class="plate" for="plate3">10</label>
+			    <input type="checkbox" name="checkbox-h-2e" id="plate4" checked="checked">
+			    <label class="plate" for="plate4">5</label>
+			    <input type="checkbox" name="checkbox-h-2f" id="plate5" checked="checked">
+			    <label class="plate" for="plate5">2.5</label>
+			</fieldset>
+		</form>
+	
+		<p><a class="ui-btn ui-icon-back ui-btn-icon-left ui-btn-inline ui-corner-all" data-rel="back" data-theme="e">Back</a>
+		</p>
+	</div>
 </section>
 
 <section id="Workouts" data-role="page">

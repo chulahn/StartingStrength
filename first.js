@@ -232,6 +232,8 @@ function weightStandard(exercise, wc, oneRM) {
 
 $(document).ready(function () {
 
+	$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-home">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($('#main')).toolbar({position: "fixed"});
+
 	//create footer
 	$(document).on("pageshow", "[data-role='page']", function() {
 
@@ -256,6 +258,10 @@ $(document).ready(function () {
 	//if no workout has been set, automatically set
 	if (getCookie('workout') == "") {
 		setCookie('workout', JSON.stringify(defaultWorkout),30);
+	}
+
+	if (getCookie('bodyweight') != "") {
+		$('#bodyweight').attr('placeholder', "Your bodyweight is "+getCookie('bodyweight')+lbkg[getCookie('lbkg')]);
 	}
 
 	//depending on whether lb or kg, set settings
