@@ -29,8 +29,8 @@ td,tr,th {
 }
 
 div.ui-input-text { 
-	width: 10%; 
-	left:45%;
+	width: 50%; 
+	left:25%;
 	position:relative;
 }
 </style>
@@ -147,7 +147,6 @@ div.ui-input-text {
 			    <label for="radio-choice-h-2b">Kg</label>
 			</fieldset>
 		</form>
-		<input type="number" id="bodyweight" value placeholder="Enter Weight"></input>
 		<form>
 			<fieldset id="gender" data-role="controlgroup" data-type="horizontal">
 			    <input type="radio" name="gender" id="gendera"  checked="true" onclick="setCookie('gender',0,30)" ></input>
@@ -156,6 +155,8 @@ div.ui-input-text {
 			    <label for="genderb">Female</label>
 			</fieldset>
 		</form>
+		<input type="number" id="bodyweight" value placeholder="Enter Weight"></input>
+
 		<form>
 			<fieldset id="plates" data-role="controlgroup" data-type="horizontal">
 			    <p>Plates:</p>
@@ -173,7 +174,7 @@ div.ui-input-text {
 			    <label class="plate" for="plate5">2.5</label>
 			</fieldset>
 		</form>
-	
+
 		<p><a class="ui-btn ui-icon-back ui-btn-icon-left ui-btn-inline ui-corner-all" data-rel="back" data-theme="e">Back</a>
 		</p>
 	</div>
