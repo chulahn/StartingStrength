@@ -108,18 +108,19 @@ function setPlates() {
 }
 
 function calculateStrengthStandards(exerciseName){
-		$('.tab th:nth-child(1)').html(lbkg[getCookie('lbkg')]);
-		$('#'+exerciseName+'Tab th:nth-child(2)').html($('#'+exerciseName).children("h1").text());
-		var rows = $('#'+exerciseName+'Tab td:nth-child(1)').length;
+		$('.tab th:even').html(lbkg[getCookie('lbkg')]);
+		$('#'+exerciseName+'Tab th:eq(1)').html($('#'+exerciseName).children("h1").text());
+		//can hardcode 13
+		// var rows = $('#'+exerciseName+'Tab td:nth-child(1)').length;
+		var rows = 13;
+		var columns = 6;
 
 		for (i=0; i<rows-1; i++) {
-			//writes the weight classes
-			$('.tab tr:nth-child('+(i+3)+') td:nth-child(1)').html(weightClass[getCookie('lbkg')][i]);
-			$('.tab tr:nth-child('+(i+3)+') td:nth-child(1)').css("width", "20%");
-			var columns = $('#'+exerciseName+'Tab td').length
-			for (j=0; j<columns-1; j++) {
-				$('#'+exerciseName+'Tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').html(pickWorkout(exerciseName)[getCookie('lbkg')][i][j]);
-				$('.tab tr:nth-child('+(i+3)+') td:nth-child('+(j+2)+'').css("width", "16%");
+			$('#'+exerciseName+'Tab tr:eq('+(i+2)+') td:eq(0)').html(weightClass[getCookie('lbkg')][i]);
+			$('#'+exerciseName+'Tab tr:eq('+(i+2)+') td:eq(0)').css("width","20%");
+			for (j=0;j<columns-1; j++) {
+				$('#'+exerciseName+'Tab tr:eq('+(i+2)+') td:eq('+(j+1)+')').html(pickWorkout(exerciseName)[getCookie('lbkg')][i][j]);
+				$('#'+exerciseName+'Tab tr:eq('+(i+2)+') td:eq('+(j+1)+')').css("width","16%");
 			}
 		}
 		$('.tab td').addClass("auto-style1");
@@ -242,18 +243,7 @@ $(document).ready(function () {
 
 		}
 		
-
-		// if ($($(this)).hasClass("default_header")) {
-		// 	console.log(1);
-		// 	console.log($(this).attr('id'));
-		// }
-		// else {
-		// 	console.log(2);
-		// 	console.log($(this).attr('id'));
-		// 	$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Home" class ="ui-btn-icon-top ui-btn ui-icon-home">Home</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
-		// }
 	});
-
 
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
