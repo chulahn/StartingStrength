@@ -78,7 +78,7 @@ div.ui-input-text {
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
 <script src="javascripts/jquery-ui.min.js"></script>
-<script src="javascripts/jquery.ui.touch-punch.js"></script>
+<script src="javascripts/jquery.ui.touch-punch-min.js"></script>
 <script>
   $(function() {
     $( "#sortable1, #sortable2, #sortable3" ).sortable({
@@ -87,7 +87,6 @@ div.ui-input-text {
   });
   </script>
 
-<script src="first.js"></script>
 </head>
 <section id ="main" class="default_footer" data-role="page">
 	<header data-theme="b" data-role="header">
@@ -140,7 +139,7 @@ div.ui-input-text {
 	</div>
 </section>
 
-<section id="Settings" data-role="page">
+<section id="Settings" data-dialog="true" data-role="page">
 	<div class="auto-style1">	
 		<form>
 			<fieldset id="weightSystem" data-role="controlgroup" data-type="horizontal">
@@ -196,6 +195,7 @@ div.ui-input-text {
 	</div>
 </section>
 
+<script src="first.js"></script>
 
 </body>
 
