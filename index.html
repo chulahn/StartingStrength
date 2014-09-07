@@ -82,9 +82,12 @@ div.ui-input-text {
 <script>
   $(function() {
     $( "#sortable1, #sortable2, #sortable3" ).sortable({
-    delay: 3000
-      connectWith: ".connectedSortable"
+      connectWith: ".connectedSortable",
+      delay: 300
     }).disableSelection();
+    
+     $( "#sortable1 div, #sortable2 div, #sortable3 div" ).disableSelection();
+
   });
   </script>
 
