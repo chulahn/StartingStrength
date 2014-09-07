@@ -235,17 +235,15 @@ function updateStandard(exerciseName) {
 }
 $(document).ready(function () {
 
-	$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-home">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($('#main')).toolbar({position: "fixed"});
-
 	//create footer
 	$(document).on("pageshow", "[data-role='page']", function() {
 		if ($(this).hasClass("default_footer")) {
 			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-home">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
 		}
 		else if ($(this).attr('id') == "Workouts") {
+			console.log($('footer'));
 			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#main" class ="ui-btn-icon-top ui-btn ui-icon-home">Exercises</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
 		}
-
 	});
 
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
@@ -418,7 +416,7 @@ $(document).ready(function () {
 	//each exercise, create page
 	$('.Exercise').each(function () {
 		var exerciseName = $(this).attr('id');
-		$('<header data-theme="b" data-role="header"><h1>'+$(this).children("h1").text()+'</h1><a href="#" class ="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-back ui-btn-icon-left" data-rel="back">Back</a><a href="#" class ="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-gear ui-btn-icon-left">Settings</a></header>').prependTo($(this));
+		$('<header data-theme="b" data-role="header"><h1>'+$(this).children("h1").text()+'</h1><a href="#" class ="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-back ui-btn-icon-left" data-rel="back">Back</a><a href="#About" class ="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-bars ui-btn-icon-left">About</a></header>').prependTo($(this));
 		if (bodyweight != "" && bodyweight != 0) {
 			$(this).append('<h2 class="bw"> Your bodyweight is '+bodyweight+' '+lbkg[getCookie('lbkg')]+' <h3 class="wc"> You are in the ' + weightClass[getCookie('gender')][getCookie('lbkg')][wc]+ ' '+ lbkg[getCookie('lbkg')]+' weight class');
 		}
