@@ -235,6 +235,11 @@ function updateStandard(exerciseName) {
 }
 $(document).ready(function () {
 
+	if (getCookie('first') == "") {
+		window.alert("Welcome to the Starting Strength calculator.  Please set your settings, otherwise the default settings will be used.")
+		setCookie('first', false, 30);
+	}
+
 	//create footer
 	$(document).on("pageshow", "[data-role='page']", function() {
 		if ($(this).hasClass("default_footer")) {
