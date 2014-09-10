@@ -32,7 +32,6 @@ function calculateWarmups(exerciseName, weight){
 	$('.bar').html(plates[getCookie('lbkg')][0]+"x5x2 (Bar)");
 	var set = [];
 	var max;
-
 	var warmups = $.parseJSON(getCookie('warmups'));
 
 	for (j=0; j<warmups[0].length; j++) {
@@ -56,39 +55,10 @@ function calculateWarmups(exerciseName, weight){
 			$('.'+exerciseName+'warmup'+[j]).html(set[j]);
 			setCookie(exerciseName, weight, 30);
 		}
-
 		}//end for
 		max = Math.round(weight / (1.0278 - (.0278 * 5)));
 		$('.'+exerciseName+'max').html("Your 1 Rep Max is " + max + " "  + numToPlate(max));
 		$('#'+exerciseName+'Standard').html("You are in the category "+ standard[weightStandard(exerciseName, getWeightClass(getCookie('bodyweight')), max)]);
-
-
-			// for (j=1; j<5; j++) {
-			// 	mult = ((j+1)*.2).toFixed(1) * weight;
-			// 	if (mult < plates[getCookie('lbkg')][0]) {
-			// 		mult = plates[getCookie('lbkg')][0];
-			// 	}
-			// 	mult = Math.floor(mult/ (2*plates[getCookie('lbkg')][plates[0].length-1]) ) * 2*plates[getCookie('lbkg')][plates[0].length-1];
-			// 	set[j] = mult;
-			// 	if (j == 1){
-			// 		set[j] += "x5"
-			// 		}
-			// 	if (j == 2){
-			// 		set[j] += "x3"
-			// 	}
-			// 	if (j == 3){
-			// 		set[j] += "x2"
-			// 	}
-			// 	if (j == 4){
-			// 		set[j] += "x5x3"
-			// 	}
-			// 	set[j] += " "  + numToPlate(mult);
-			// 	$('.'+exerciseName+'warmup'+[j]).html(set[j]);
-			// 	setCookie(exerciseName, weight, 30);
-			// }
-			// max = Math.round(weight / (1.0278 - (.0278 * 5)));
-			// $('.'+exerciseName+'max').html("Your 1 Rep Max is " + max + " "  + numToPlate(max));
-			// $('#'+exerciseName+'Standard').html("You are in the category "+ standard[weightStandard(exerciseName, getWeightClass(getCookie('bodyweight')), max)]);
 }
 
 function oneRM(weight) {
@@ -292,10 +262,18 @@ $(document).ready(function () {
 	if (getCookie('workout') == "") {
 		setCookie('workout', JSON.stringify(defaultWorkout),30);
 	}
-
-	if (getCookie('warmups') == ""){
+	var warmups = $.parseJSON(getCookie('warmups'));
+	if (warmups == ""){
 		setCookie('warmups', JSON.stringify(defaultWarmup) ,30);
 		warmups = $.parseJSON(getCookie('warmups'));
+	}
+
+	if (warmups != ""){
+		for (t=0; t<5; t++) {
+			 $('#warm'+t+'').val(warmups[0][t]);
+			 $('#warmrep'+t+'').val(warmups[1][t]);
+			 $('#warmset'+t+'').val(warmups[2][t]);
+		}
 	}
 
 	if ( getCookie('bodyweight') != "" && getCookie('bodyweight') != 0) {
@@ -453,15 +431,19 @@ $(document).ready(function () {
 		}
 	});
 
+	//on change in warmup settings
 	$('#warmupsettings').change(function () {
-		console.log(1);
 		var warmups = [[],[],[]];
 		for (h=0; h<5; h++) {
 			warmups[0][h] = $('#warm'+h+'').val();
 			warmups[1][h] = $('#warmrep'+h+'').val();
 			warmups[2][h] = $('#warmset'+h+'').val();
 		}
-		console.log(warmups);
+		setCookie('warmups', JSON.stringify(warmups), 30);
+		//recalculate warmups
+		$('.Exercise').each(function() {
+			calculateWarmups($(this).attr('id'), getCookie($(this).attr('id')));
+		});
 	})
 
 	//each exercise, create page
