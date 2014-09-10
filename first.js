@@ -3,7 +3,6 @@
 //0 for lb 1 for kg
 var lbkg = ["lb", "kg"];
 var weightClass = [[[114,123,132,148,165,181,198,220,242,275,319,"320+"], [52,56,60,67,75,82,90,100,110,125,145,"145+"]],[[97,105,114,123,132,148,165,181,198,"199+"],[44,48,52,56,60,67,75,82,90,"90+"]]];
-
 var plates = [[45,35,25,10,5,2.5] ,[20,15,10,5,2.5,1]];
 var slider = [[45,500,5],[20,250,2.5]];
 var eName = ["Squat", "Bench", "Deadlift", "OHP", "Row", "PC"];
@@ -247,10 +246,7 @@ $(document).ready(function () {
 		setCookie('first', false, 30);
 		setCookie('gender',0,30);
 		setPlates();
-
 	}
-	console.log(getCookie('warmups'));
-
 	//create footer
 	$(document).on("pageshow", "[data-role='page']", function() {
 		if ($(this).hasClass("default_footer")) {
@@ -261,19 +257,11 @@ $(document).ready(function () {
 			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#main" class ="ui-btn-icon-top ui-btn ui-icon-home">Exercises</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
 		}
 	});
-
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
-	//if settings have not been set yet, automatically set to lbs
-	// if (weightSystem == ""){
-	// 	setCookie('lbkg',0,30);
-	// 	weightSystem = getCookie('lbkg');
-	// }
-	//if no workout has been set, automatically set
-	// if (getCookie('workout') == "") {
-	// 	setCookie('workout', JSON.stringify(defaultWorkout),30);
-	// }
 	var warmups = getCookie('warmups');
+	var gender = getCookie('gender');
+	var numPlates = $('#plates input').length;
 
 	if (warmups != ""){
 		warmups = $.parseJSON(warmups);
@@ -283,16 +271,12 @@ $(document).ready(function () {
 			 $('#warmset'+t+'').val(warmups[2][t]);
 		}
 	}
-
 	if ( getCookie('bodyweight') != "" && getCookie('bodyweight') != 0) {
 		$('#bodyweight').attr('placeholder', "Your weight is "+ getCookie('bodyweight')+lbkg[getCookie('lbkg')]);
 	}
 	if ( getCookie('bodyweight') == "" || getCookie('bodyweight') == 0) {
 		$('#bodyweight').attr('placeholder', "Enter Weight");
 	}
-
-	//depending on whether lb or kg, set settings
-	var numPlates = $('#plates input').length;
 	if (weightSystem == "1") {
 		$('#radio-choice-h-2b').prop('checked',"checked");
 		$('#radio-choice-h-2a').prop('checked',"");	
@@ -301,12 +285,6 @@ $(document).ready(function () {
 		$('#radio-choice-h-2b').prop('checked',"");
 		$('#radio-choice-h-2a').prop('checked',"checked");		
 	}
-	
-	var gender = getCookie('gender');
-	// if (gender == "") {
-	// 	setCookie('gender',0,30);
-	// 	gender=0;
-	// }
 	if (gender == "1") {
 		$('#genderb').prop('checked',"checked");
 		$('#gendera').prop('checked',"");	
@@ -315,14 +293,9 @@ $(document).ready(function () {
 		$('#genderb').prop('checked',"");
 		$('#gendera').prop('checked',"checked");		
 	}
-
 	for (i=0; i<numPlates+1; i++) {
 		$('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
 	}
-	//sets lbkg cookie to be used in calculating what plates to add
-	// if (getCookie('plates') == ""){
-	// 	setPlates();
-	// }
 	$('#plates input').each(function () {
 		var currentRadio = $(this).attr('id');
 		// if plate is not in plates cookie, uncheck it
@@ -471,7 +444,6 @@ $(document).ready(function () {
 		}
 		//add working weight slider, working sets and 1rm
 		$('<p></p>Working Weight<input class="slider" id='+exerciseName+'Weight type="range" value='+weight+' min='+slider[getCookie('lbkg')][0]+' max='+slider[getCookie('lbkg')][1]+' step='+slider[getCookie('lbkg')][2]+' /><div id="Sets"><div class="bar">'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+exerciseName+'warmup1></div><div class='+exerciseName+'warmup2></div><div class='+exerciseName+'warmup3></div><div class='+exerciseName+'warmup4></div></div><br /><div class ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
-
 		//set warmup divs
 		calculateWarmups(exerciseName, weight);
 		//weight standards table
@@ -492,7 +464,6 @@ $(document).ready(function () {
 			$('.bw').html('Enter a bodyweight');
 			$('.wc').html('');
 		}
-		
 		var exerciseName = $(this).attr('id');
 		$('#'+exerciseName+'Weight').change(function (e) {
 			var weight = $(this).val();
@@ -503,5 +474,4 @@ $(document).ready(function () {
 			updateStandard(exerciseName);
 		});
 	});
-
 });
