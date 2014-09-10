@@ -32,7 +32,11 @@ function calculateWarmups(exerciseName, weight){
 	$('.bar').html(plates[getCookie('lbkg')][0]+"x5x2 (Bar)");
 	var set = [];
 	var max;
-	var warmups = $.parseJSON(getCookie('warmups'));
+	var warmups = getCookie('warmups');
+	if (warmups == ""){
+		setCookie('warmups', JSON.stringify(defaultWarmup) ,30);
+	}
+	warmups = $.parseJSON(getCookie('warmups'));
 
 	for (j=0; j<warmups[0].length; j++) {
 		product = (warmups[0][j]/100).toFixed(2) * weight; 
@@ -234,11 +238,18 @@ function updateStandard(exerciseName) {
 	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+') td:eq('+(weightStandard(exerciseName, (getWeightClass(getCookie('bodyweight'))) , oneRM(getCookie(exerciseName)) )+1)+')').addClass('work');
 }
 $(document).ready(function () {
-
+	//first time visiting site, set defaults
 	if (getCookie('first') == "") {
 		window.alert("Welcome to the Starting Strength calculator.  Please set your settings, otherwise the default settings will be used.")
+		setCookie('lbkg',0,30);
+		setCookie('workout', JSON.stringify(defaultWorkout),30);
+		setCookie('warmups', JSON.stringify(defaultWarmup), 30);
 		setCookie('first', false, 30);
+		setCookie('gender',0,30);
+		setPlates();
+
 	}
+	console.log(getCookie('warmups'));
 
 	//create footer
 	$(document).on("pageshow", "[data-role='page']", function() {
@@ -254,21 +265,18 @@ $(document).ready(function () {
 	//when page loads, determine if in lb or kg, and check appropriate box and set plates
 	var weightSystem = getCookie('lbkg');
 	//if settings have not been set yet, automatically set to lbs
-	if (weightSystem == ""){
-		setCookie('lbkg',0,30);
-		weightSystem = getCookie('lbkg');
-	}
+	// if (weightSystem == ""){
+	// 	setCookie('lbkg',0,30);
+	// 	weightSystem = getCookie('lbkg');
+	// }
 	//if no workout has been set, automatically set
-	if (getCookie('workout') == "") {
-		setCookie('workout', JSON.stringify(defaultWorkout),30);
-	}
-	var warmups = $.parseJSON(getCookie('warmups'));
-	if (warmups == ""){
-		setCookie('warmups', JSON.stringify(defaultWarmup) ,30);
-		warmups = $.parseJSON(getCookie('warmups'));
-	}
+	// if (getCookie('workout') == "") {
+	// 	setCookie('workout', JSON.stringify(defaultWorkout),30);
+	// }
+	var warmups = getCookie('warmups');
 
 	if (warmups != ""){
+		warmups = $.parseJSON(warmups);
 		for (t=0; t<5; t++) {
 			 $('#warm'+t+'').val(warmups[0][t]);
 			 $('#warmrep'+t+'').val(warmups[1][t]);
@@ -295,10 +303,10 @@ $(document).ready(function () {
 	}
 	
 	var gender = getCookie('gender');
-	if (gender == "") {
-		setCookie('gender',0,30);
-		gender=0;
-	}
+	// if (gender == "") {
+	// 	setCookie('gender',0,30);
+	// 	gender=0;
+	// }
 	if (gender == "1") {
 		$('#genderb').prop('checked',"checked");
 		$('#gendera').prop('checked',"");	
@@ -312,9 +320,9 @@ $(document).ready(function () {
 		$('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
 	}
 	//sets lbkg cookie to be used in calculating what plates to add
-	if (getCookie('plates') == ""){
-		setPlates();
-	}
+	// if (getCookie('plates') == ""){
+	// 	setPlates();
+	// }
 	$('#plates input').each(function () {
 		var currentRadio = $(this).attr('id');
 		// if plate is not in plates cookie, uncheck it
