@@ -2,7 +2,7 @@
 
 //0 for lb 1 for kg
 var lbkg = ["lb", "kg"];
-var weightClass = [[[114,123,132,148,165,181,198,220,242,275,319,"320+"], [52,56,60,67,75,82,90,100,110,125,145,"145+"]],[[97,105,114,123,132,148,165,181,198,"199+"],[44,48,52,56,60,67,75,82,90,"90+"]]];
+var weightClass = [[[114,123,132,148,165,181,198,220,242,275,319,"320+"], [52,56,60,67,75,82,90,100,110,125,145,"146+"]],[[97,105,114,123,132,148,165,181,198,"199+"],[44,48,52,56,60,67,75,82,90,"91+"]]];
 var plates = [[45,35,25,10,5,2.5] ,[20,15,10,5,2.5,1]];
 var slider = [[45,500,5],[20,250,2.5]];
 var eName = ["Squat", "Bench", "Deadlift", "OHP", "Row", "PC"];
@@ -164,8 +164,8 @@ function numToPlate(data) {
 function getWeightClass(data) {
 	var w;
 	for (i=0; i<weightClass[getCookie('gender')][getCookie('lbkg')].length; i++) {
-
-		if (weightClass[getCookie('gender')][getCookie('lbkg')][i] > data) {
+		//if weight class is > weight, set to one
+		if (parseInt(weightClass[getCookie('gender')][getCookie('lbkg')][i]) > data) {
 			if (i==0){
 				w=0;
 			}
@@ -228,7 +228,7 @@ function weightStandard(exercise, wc, oneRM) {
 
 function removeTableClasses(){
 	$('tr').removeClass('weightclass');
-	$('td').removeClass('work');
+	$('td .work').removeClass('work');
 }
 
 function updateStandard(exerciseName) {
@@ -390,21 +390,41 @@ $(document).ready(function () {
 
 	//handler for lbkg to set weight system, slider, and strength standard table
 	$('#weightSystem').change(function () {
+		var lbOrKg = getCookie('lbkg');
+		if (lbOrKg == 0) {
+			setCookie('bodyweight', Math.round(getCookie('bodyweight') * 2.2) , 30 );
+		}
+		else {
+			setCookie('bodyweight', Math.round(getCookie('bodyweight') / 2.2) , 30 );
+		}
 		for (i=0; i<numPlates+1; i++) {
-		$('label[for="plate'+(i)+'"]').text(plates[getCookie('lbkg')][i]);
-		$('.slider').attr('min' ,slider[getCookie('lbkg')][0]);
-		$('.slider').attr('max' ,slider[getCookie('lbkg')][1]);
-		$('.slider').attr('step' ,slider[getCookie('lbkg')][2]);
+			$('label[for="plate'+(i)+'"]').text(plates[lbOrKg][i]);
 		}
 		removeTableClasses();
 		for (z=0; z<eName.length; z++) {
 			calculateStrengthStandards(eName[z]);
 			updateStandard(eName[z]);
 		}
+		
+		$('.Exercise').each(function() {
+			//lb to kg
+			if (lbOrKg == 0) {
+				setCookie($(this).attr('id'), Math.round(getCookie($(this).attr('id')) * 2.2) , 30 );
+			}
+			if (lbOrKg == 1) {
+				setCookie($(this).attr('id'), Math.round(getCookie($(this).attr('id')) / 2.2) , 30 );
+			}
+			calculateWarmups($(this).attr('id'), getCookie($(this).attr('id')));
+			$('.slider').attr('value', getCookie($(this).attr('id')));
+		});
+		$('#bodyweight').attr('placeholder', "Your weight is "+ getCookie('bodyweight')+lbkg[getCookie('lbkg')]);
+		$('.slider').attr('min' ,slider[getCookie('lbkg')][0]);
+		$('.slider').attr('max' ,slider[getCookie('lbkg')][1]);
+		$('.slider').attr('step' ,slider[getCookie('lbkg')][2]);
 	});
 
 	$('#gender').change(function () {
-		$('td').text('');
+		$('td .auto-style1').text('');
 		removeTableClasses();
 		for (y=0; y<eName.length; y++) {
 			calculateStrengthStandards(eName[y]);
