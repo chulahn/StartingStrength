@@ -230,16 +230,16 @@ function updateStandard(exerciseName) {
 }
 
 function addPlate(data) {
-	data = parseInt(data);
+	d = parseInt(data);
 	var num = $('#plates input').length;
 	$el = $('<input type="checkbox" id="plate'+num+'" checked="checked"><label class="plate" for="plate'+num+'">'+data+'</label>');
     $("#plates").controlgroup("container")["append"]($el);
     $("#plates").trigger('create').controlgroup("refresh");
     var newArray = $.parseJSON(getCookie('plates'));
-    newArray.push(data);
+    newArray.push(d);
     setCookie('plates', JSON.stringify (newArray) , 30);
     var newArray2 = $.parseJSON(getCookie('allPlates'));
-    newArray2.push(data);
+    newArray2.push(d);
     setCookie('allPlates', JSON.stringify (newArray2) , 30);
 
 }
