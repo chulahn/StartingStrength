@@ -88,7 +88,7 @@ function setPlates() {
 		array[count] = plates[getCookie('lbkg')][parseInt($(this).attr('id')[$(this).attr('id').length-1])];
 		}
 		else {
-			array[count] = $('label[for="plate'+(count)+'"]').text();
+			array[count] = parseInt($('label[for="plate'+(count)+'"]').text());
 		}
 		count += 1;
 	});
