@@ -230,7 +230,7 @@ function updateStandard(exerciseName) {
 }
 
 function addPlate(data) {
-
+	data = parseInt(data);
 	var num = $('#plates input').length;
 	$el = $('<input type="checkbox" id="plate'+num+'" checked="checked"><label class="plate" for="plate'+num+'">'+data+'</label>');
     $("#plates").controlgroup("container")["append"]($el);
