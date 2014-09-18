@@ -1,5 +1,3 @@
-//add Women
-
 //0 for lb 1 for kg
 var lbkg = ["lb", "kg"];
 var weightClass = [[[114,123,132,148,165,181,198,220,242,275,319,"320+"], [52,56,60,67,75,82,90,100,110,125,145,"146+"]],[[97,105,114,123,132,148,165,181,198,"199+"],[44,48,52,56,60,67,75,82,90,"91+"]]];
@@ -81,26 +79,21 @@ function getCookie(cname) {
     return "";
 }
 
-function checkCookie() {
-    var user=getCookie("username");
-    if (user != "") {
-        <!-- alert("Welcome again " + user); -->
-    } else {
-       user = prompt("Please enter your name:","");
-       if (user != "" && user != null) {
-           setCookie("username", user, 30);
-       }
-    }
-}
-
 function setPlates() {
 	var array =[];
 	count =0;
 	$('#plates input:checked').each(function () {
 		//get the index from last part of id
+		if (plates[getCookie('lbkg')][parseInt($(this).attr('id')[$(this).attr('id').length-1])] != null) {
 		array[count] = plates[getCookie('lbkg')][parseInt($(this).attr('id')[$(this).attr('id').length-1])];
+		}
+		else {
+			array[count] = $('label[for="plate'+(count)+'"]').text();
+		}
 		count += 1;
 	});
+	array.sort(function (a,b){return b-a});
+	console.log(array);
 	setCookie('plates', JSON.stringify(array), 30);
 }
 
@@ -232,10 +225,25 @@ function removeTableClasses(){
 }
 
 function updateStandard(exerciseName) {
-
 	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+')').addClass('weightclass');
 	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+') td:eq('+(weightStandard(exerciseName, (getWeightClass(getCookie('bodyweight'))) , oneRM(getCookie(exerciseName)) )+1)+')').addClass('work');
 }
+
+function addPlate(data) {
+
+	var num = $('#plates input').length;
+	$el = $('<input type="checkbox" id="plate'+num+'" checked="checked"><label class="plate" for="plate'+num+'">'+data+'</label>');
+    $("#plates").controlgroup("container")["append"]($el);
+    $("#plates").trigger('create').controlgroup("refresh");
+    var newArray = $.parseJSON(getCookie('plates'));
+    newArray.push(data);
+    setCookie('plates', JSON.stringify (newArray) , 30);
+    var newArray2 = $.parseJSON(getCookie('allPlates'));
+    newArrray2.push(data);
+    setCookie('allPlates', JSON.stringify (newArray2) , 30);
+
+}
+
 $(document).ready(function () {
 	//first time visiting site, set defaults
 	if (getCookie('first') == "") {
@@ -245,7 +253,8 @@ $(document).ready(function () {
 		setCookie('warmups', JSON.stringify(defaultWarmup), 30);
 		setCookie('first', false, 30);
 		setCookie('gender',0,30);
-		setPlates();
+		setCookie('plates', JSON.stringify(plates[0]), 30);
+		setCookie('allPlates', JSON.stringify(plates[0]), 30);
 	}
 	//create footer
 	$(document).on("pageshow", "[data-role='page']", function() {
@@ -293,8 +302,16 @@ $(document).ready(function () {
 		$('#genderb').prop('checked',"");
 		$('#gendera').prop('checked',"checked");		
 	}
-	for (i=0; i<numPlates+1; i++) {
-		$('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
+	var platez = $.parseJSON(getCookie('allPlates'))
+			$("#plates").controlgroup();
+for (i=0; i<platez.length; i++) {
+		$el = $('<input type="checkbox" id="plate'+i+'" checked="checked"><label class="plate" for="plate'+i+'">'+platez[i]+'</label>');
+
+	    $("#plates").controlgroup("container")["append"]($el);
+    	$("#plates").trigger('create').controlgroup("refresh");
+
+
+		// $('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
 	}
 	$('#plates input').each(function () {
 		var currentRadio = $(this).attr('id');
