@@ -239,7 +239,7 @@ function addPlate(data) {
     newArray.push(data);
     setCookie('plates', JSON.stringify (newArray) , 30);
     var newArray2 = $.parseJSON(getCookie('allPlates'));
-    newArrray2.push(data);
+    newArray2.push(data);
     setCookie('allPlates', JSON.stringify (newArray2) , 30);
 
 }
