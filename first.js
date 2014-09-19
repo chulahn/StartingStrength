@@ -84,17 +84,33 @@ function setPlates() {
 	count =0;
 	$('#plates input:checked').each(function () {
 		//get the index from last part of id
-		if (plates[getCookie('lbkg')][parseInt($(this).attr('id')[$(this).attr('id').length-1])] != null) {
-		array[count] = plates[getCookie('lbkg')][parseInt($(this).attr('id')[$(this).attr('id').length-1])];
+		if (plates[getCookie('lbkg')][parseFloat($(this).attr('id')[$(this).attr('id').length-1])] != null) {
+		array[count] = plates[getCookie('lbkg')][parseFloat($(this).attr('id')[$(this).attr('id').length-1])];
 		}
 		else {
-			array[count] = parseInt($('label[for="plate'+(count)+'"]').text());
+			array[count] = parseFloat($('label[for="plate'+(count)+'"]').text());
 		}
 		count += 1;
 	});
 	array.sort(function (a,b){return b-a});
 	console.log(array);
 	setCookie('plates', JSON.stringify(array), 30);
+}
+
+function removePlates() {
+	for (i=6; i<$('#plates input').length+1; i++) {
+		var num = parseFloat($('#plate'+i+'').text());
+		$('#plate'+i+'').remove();
+		$('label[for="plate'+i+'"]').remove();
+		var array = $.parseJSON(getCookie('plates'));
+		var array2 = $.parseJSON(getCookie('allPlates'));
+		var ind = array.indexOf(num);
+		var ind2 = array2.indexOf(num);
+		array.splice(ind, 1);
+		array2.splice(ind2, 1);
+		setCookie('plates', JSON.stringify(array), 30);
+		setCookie('allPlates', JSON.stringify(array2), 30);
+	}
 }
 
 function calculateStrengthStandards(exerciseName){
@@ -229,21 +245,25 @@ function updateStandard(exerciseName) {
 	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+') td:eq('+(weightStandard(exerciseName, (getWeightClass(getCookie('bodyweight'))) , oneRM(getCookie(exerciseName)) )+1)+')').addClass('work');
 }
 
-function addPlate(data) {
-	d = parseInt(data);
-	var num = $('#plates input').length;
-	$el = $('<input type="checkbox" id="plate'+num+'" checked="checked"><label class="plate" for="plate'+num+'">'+data+'</label>');
-    $("#plates").controlgroup("container")["append"]($el);
-    $("#plates").trigger('create').controlgroup("refresh");
-    var newArray = $.parseJSON(getCookie('plates'));
-    newArray.push(d);
-    setCookie('plates', JSON.stringify (newArray) , 30);
-    var newArray2 = $.parseJSON(getCookie('allPlates'));
-    newArray2.push(d);
-    setCookie('allPlates', JSON.stringify (newArray2) , 30);
-
+function addPlate() {
+	var d = window.prompt("Enter weight", "55");
+	d = parseFloat(d);
+	var newArray2 = $.parseJSON(getCookie('allPlates'));
+    if (newArray2.indexOf(d) == -1) {
+	   	var num = $('#plates input').length;
+		$el = $('<input type="checkbox" id="plate'+num+'" checked="checked"><label class="plate" for="plate'+num+'">'+d+'</label>');
+	    $("#plates").controlgroup("container")["append"]($el);
+	    $("#plates").trigger('create').controlgroup("refresh");
+	    var newArray = $.parseJSON(getCookie('plates'));
+	    newArray.push(d);
+	    setCookie('plates', JSON.stringify (newArray) , 30);
+	    newArray2.push(d);
+	    setCookie('allPlates', JSON.stringify (newArray2) , 30);
+	}
+	else {
+		window.alert("This plate has already been added");
+	}
 }
-
 $(document).ready(function () {
 	//first time visiting site, set defaults
 	if (getCookie('first') == "") {
@@ -303,16 +323,13 @@ $(document).ready(function () {
 		$('#gendera').prop('checked',"checked");		
 	}
 	var platez = $.parseJSON(getCookie('allPlates'))
-			$("#plates").controlgroup();
-for (i=0; i<platez.length; i++) {
+	$("#plates").controlgroup();
+	for (i=0; i<platez.length; i++) {
 		$el = $('<input type="checkbox" id="plate'+i+'" checked="checked"><label class="plate" for="plate'+i+'">'+platez[i]+'</label>');
-
 	    $("#plates").controlgroup("container")["append"]($el);
     	$("#plates").trigger('create').controlgroup("refresh");
-
-
-		// $('label[for="plate'+(i)+'"]').text(plates[weightSystem][i]);
 	}
+
 	$('#plates input').each(function () {
 		var currentRadio = $(this).attr('id');
 		// if plate is not in plates cookie, uncheck it
@@ -477,7 +494,7 @@ for (i=0; i<platez.length; i++) {
 		//if weight was set before, set the input value
 		var weight=40;
 		if (getCookie(exerciseName) != ""){
-			weight = parseInt( getCookie(exerciseName) );
+			weight = parseFloat( getCookie(exerciseName) );
 		}
 		//add working weight slider, working sets and 1rm
 		$('<p></p>Working Weight<input class="slider" id='+exerciseName+'Weight type="range" value='+weight+' min='+slider[getCookie('lbkg')][0]+' max='+slider[getCookie('lbkg')][1]+' step='+slider[getCookie('lbkg')][2]+' /><div id="Sets"><div class="bar">'+plates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+exerciseName+'warmup1></div><div class='+exerciseName+'warmup2></div><div class='+exerciseName+'warmup3></div><div class='+exerciseName+'warmup4></div></div><br /><div class ='+exerciseName+'max></div><p></p><div id='+exerciseName+'Standard></div>').appendTo($(this));
