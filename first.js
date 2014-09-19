@@ -93,7 +93,7 @@ function setPlates() {
 		count += 1;
 	});
 	array.sort(function (a,b){return b-a});
-	console.log(array);
+	console.log("inside setPlates");
 	setCookie('plates', JSON.stringify(array), 30);
 }
 
@@ -141,7 +141,6 @@ function numToPlate(data) {
 	for (i=0; i<weight.length; i++){
 		outPlates[i] = NaN;
 	}
-
 	var string = "(";
 	//if input > bar, subtract bar
 	if (data > plates[getCookie('lbkg')][0]) {
@@ -290,7 +289,6 @@ $(document).ready(function () {
 	var weightSystem = getCookie('lbkg');
 	var warmups = getCookie('warmups');
 	var gender = getCookie('gender');
-	var numPlates = $('#plates input').length;
 
 	if (warmups != ""){
 		warmups = $.parseJSON(warmups);
@@ -420,7 +418,7 @@ $(document).ready(function () {
 	//set plates
 	$('#plates').change(function () {
 		setPlates();
-	})
+	});
 
 	//handler for lbkg to set weight system, slider, and strength standard table
 	$('#weightSystem').change(function () {
@@ -431,9 +429,31 @@ $(document).ready(function () {
 		else {
 			setCookie('bodyweight', Math.round(getCookie('bodyweight') / 2.2) , 30 );
 		}
-		for (i=0; i<numPlates+1; i++) {
+		var array = $.parseJSON(getCookie('allPlates'));
+		var array2 = $.parseJSON(getCookie('plates'));
+		var array3 = array.slice(0);
+		var array4 = array2.slice(0);
+		for (i=0; i<plates[0].length; i++) {
 			$('label[for="plate'+(i)+'"]').text(plates[lbOrKg][i]);
+
+			//if the current number of the original 5 plates is in array2, replace
+			if (array2.indexOf(parseFloat(array[i])) != -1) {
+				array4[array2.indexOf(parseFloat(array[i]))] = plates[lbOrKg][i];
+			}
+			array3[i] = plates[lbOrKg][i];
+		}			
+			setCookie('allPlates', JSON.stringify(array3), 30);
+			var len= $('#plates input').length;
+			if (len > 6) {
+			for (i=6; i<len; i++) {
+				console.log(array4[i-array4.length]);
+				console.log(array[i]);
+				array4[i-len] = array[i];
+				console.log(array4[i-array4.length]);
+			}
 		}
+			setCookie('plates', JSON.stringify(array4), 30);
+
 		removeTableClasses();
 		for (z=0; z<eName.length; z++) {
 			calculateStrengthStandards(eName[z]);
