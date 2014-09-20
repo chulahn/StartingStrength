@@ -1,0 +1,64 @@
+.work {
+	font-weight:bold;
+}
+.auto-style1 {
+	text-align: center;
+}
+
+.tab {
+	overflow: scroll;
+}
+
+table {
+	border-style: solid;
+	border-width: 1px;
+	border-spacing: 0px;
+
+}
+.weightclass {
+	background-color: #FFFC36;
+}
+td,tr,th {
+	border-style: solid;
+	border-width: 1px;
+}
+
+div.ui-input-text { 
+	width: 50%; 
+	left:25%;
+	position:relative;
+}
+
+#workoutdiv {
+  float:left;
+  width: 100%;
+  position:relative;
+  overflow:hidden;
+	
+}
+  
+#sortable1,#sortable2, #sortable3 {
+    display:inline-block;
+	position:relative;
+    border: 1px solid #eee;
+    width: 30%;
+    list-style-type: none;
+    margin: 1% auto;
+    padding: 1% 1% 0 1%;
+	float: left;
+  }
+#sortable1 {
+	left:0%
+}
+#sortable2 {
+	left:2.5%
+}
+#sortable3 {
+	left:5%
+}
+#sortable1 li, #sortable2 li, #sortable3 li {
+    margin: 0 5px 5px 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 30%;
+  }

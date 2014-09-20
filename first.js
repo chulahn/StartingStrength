@@ -268,10 +268,9 @@ $(document).ready(function () {
 	//create footer
 	$(document).on("pageshow", "[data-role='page']", function() {
 		if ($(this).hasClass("default_footer")) {
-			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-home">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
+			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-gear">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
 		}
 		else if ($(this).attr('id') == "Workouts") {
-			console.log($('footer'));
 			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#main" class ="ui-btn-icon-top ui-btn ui-icon-home">Exercises</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
 		}
 	});
@@ -346,7 +345,7 @@ $(document).ready(function () {
 	});
 
 	//creates the workout from cookie
-	output1 = '';
+	output1 = 'Workout A';
 	for (i=0; i<$.parseJSON(getCookie('workout'))[0].length; i++) {
 		output1 += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
 		output1 += eName[$.parseJSON(getCookie('workout'))[0][i]];
@@ -364,7 +363,7 @@ $(document).ready(function () {
 		output2 += exercises[$.parseJSON(getCookie('workout'))[1][i]];
 		output2 += "</h3><p></p></div>";
 	}
-	output3 = '';
+	output3 = 'Workout B';
 	for (i=0; i<$.parseJSON(getCookie('workout'))[2].length; i++) {
 		output3 += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
 		output3 += eName[$.parseJSON(getCookie('workout'))[2][i]];

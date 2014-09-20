@@ -5,76 +5,8 @@
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Starting Strength Calculator</title>
-<style type="text/css">
-.work {
-	font-weight:bold;
-}
-.auto-style1 {
-	text-align: center;
-}
-
-.tab {
-	overflow: scroll;
-}
-
-table {
-	border-style: solid;
-	border-width: 1px;
-	border-spacing: 0px;
-
-}
-.weightclass {
-	background-color: #FFFC36;
-}
-td,tr,th {
-	border-style: solid;
-	border-width: 1px;
-}
-
-div.ui-input-text { 
-	width: 50%; 
-	left:25%;
-	position:relative;
-}
-</style>
-
-  <style>
-  #workoutdiv {
-  float:left;
-  width: 100%;
-  position:relative;
-  overflow:hidden;
-	
-}
-  
-  #sortable1,#sortable2, #sortable3 {
-    display:inline-block;
-	position:relative;
-    border: 1px solid #eee;
-    width: 30%;
-    list-style-type: none;
-    margin: 1% auto;
-    padding: 1% 1% 0 1%;
-	float: left;
-  }
-  #sortable1 {
-	left:0%
-}
-  #sortable2 {
-	left:2.5%
-}
-  #sortable3 {
-	left:5%
-}
-  
-  #sortable1 li, #sortable2 li, #sortable3 li {
-    margin: 0 5px 5px 5px;
-    padding: 5px;
-    font-size: 1.2em;
-    width: 30%;
-  }
-  </style>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+<link rel="stylesheet" href="stylesheets/style.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
 <script src="javascripts/jquery-ui.min.js"></script>
@@ -106,7 +38,7 @@ div.ui-input-text {
 		<a href="#OHP" data-role="button">Overhead Press</a>
 		<a href="#Row" data-role="button">Pendlay Row</a>
 		<a href="#PC" data-role="button">Power Cleans</a>
-		<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-home">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>
+		<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-gear">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>
 </section>
 
 <section id ="Squat" class="Exercise default_footer" data-role="page">
@@ -136,8 +68,8 @@ div.ui-input-text {
 <section id ="About" data-dialog="true" data-role="page">
 	<div>
 		<h1>About</h1>
-		<p>This website is used to calculate your warm up sets as well as the weights needed on each side.  Warmups are calculated as followed, first the bar x 5 x 2, 40% working set x 5, 60% x 3, 80% x 2.  It also calculates 1RM(One Rep Max) by using this formula.  
-		Working Weight / (1.0278 - (.0278 * 5)), where 5 is the number of reps for your working set.  Your 1RM is compared to the Exrx.net weightlifting standards table.  There is not a standard for Rows, so the Bench numbers are used instead.  Based on warmupreps.com</p>
+		<p>This website is used to calculate your warm up sets as well as the weights needed on each side.  Warmups are calculated as followed; first the bar x 5(reps) x 2(sets), 40% working set x 5, 60% x 3, 80% x 2.  It also calculates 1RM(One Rep Max) by using the formula,  
+		Working Weight / (1.0278 - (.0278 * 5)), where 5 is the number of reps for your working set.  Your 1RM is compared to the Exrx.net weightlifting standards table.  There is not a standard for Rows, so the Bench numbers are used instead.  After setting weights for each exercise, go to the Workouts page to see your workout for the day.  It can be customized by dragging and dropping the exercises into the appropriate boxes.  Based on warmupreps.com</p>
 	<p><a data-rel="back">Back</a>
 	</p>
 	</div>
@@ -215,14 +147,16 @@ div.ui-input-text {
 </section>
 
 <section id="Workouts" data-role="page">
+
 	<div class="workoutdiv">
-		<ul id="sortable1" class="connectedSortable"> Workout A
+	
+		<ul id="sortable1" class="connectedSortable">
 		</ul>
 
 		<ul id="sortable2" class="connectedSortable">
 		  </ul>
 	
-		<ul id="sortable3" class="connectedSortable"> Workout B
+		<ul id="sortable3" class="connectedSortable">
 		</ul>
 	</div>
 </section>
