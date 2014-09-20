@@ -94,17 +94,19 @@ function setPlates() {
 }
 function removePlates() {
 	for (i=6; i<$('#plates input').length+1; i++) {
-		var num = parseFloat($('#plate'+i+'').text());
-		$('#plate'+i+'').remove();
-		$('label[for="plate'+i+'"]').remove();
-		var array = $.parseJSON(getCookie('plates'));
-		var array2 = $.parseJSON(getCookie('allPlates'));
-		var ind = array.indexOf(num);
-		var ind2 = array2.indexOf(num);
-		array.splice(ind, 1);
-		array2.splice(ind2, 1);
-		setCookie('plates', JSON.stringify(array), 30);
-		setCookie('allPlates', JSON.stringify(array2), 30);
+		var num = parseFloat($('label[for="plate'+i+'"]').text());
+		if (!isNaN(num)) {
+			$('#plate'+i+'').remove();
+			$('label[for="plate'+i+'"]').remove();
+			var array = $.parseJSON(getCookie('plates'));
+			var array2 = $.parseJSON(getCookie('allPlates'));
+			var ind = array.indexOf(num);
+			var ind2 = array2.indexOf(num);
+			array.splice(ind, 1);
+			array2.splice(ind2, 1);
+			setCookie('plates', JSON.stringify(array), 30);
+			setCookie('allPlates', JSON.stringify(array2), 30);
+		}
 	}
 }
 function calculateStrengthStandards(exerciseName){
@@ -315,7 +317,7 @@ $(document).ready(function () {
 	    $("#plates").controlgroup("container")["append"]($el);
     	$("#plates").trigger('create').controlgroup("refresh");
 	}
-	
+
 	$('#plates input').each(function () {
 		var currentRadio = $(this).attr('id');
 		// if plate is not in plates cookie, uncheck it
