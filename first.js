@@ -238,7 +238,7 @@ function addPlate() {
 	var d = window.prompt("Enter weight", "55");
 	d = parseFloat(d);
 	var newArray2 = $.parseJSON(getCookie('allPlates'));
-    if (newArray2.indexOf(d) == -1) {
+    if (newArray2.indexOf(d) == -1 && !isNaN(d)) {
 	   	var num = $('#plates input').length;
 		$el = $('<input type="checkbox" id="plate'+num+'" checked="checked"><label class="plate" for="plate'+num+'">'+d+'</label>');
 	    $("#plates").controlgroup("container")["append"]($el);
@@ -248,6 +248,9 @@ function addPlate() {
 	    setCookie('plates', JSON.stringify (newArray) , 30);
 	    newArray2.push(d);
 	    setCookie('allPlates', JSON.stringify (newArray2) , 30);
+	}
+	else if (isNaN(d)) {
+		window.alert("Cannot add an empty plate");
 	}
 	else {
 		window.alert("This plate has already been added");
