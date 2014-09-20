@@ -24,7 +24,6 @@ function setCookie(cname,cvalue,exdays) {
     var expires = "expires=" + d.toGMTString();
     document.cookie = cname+"="+cvalue+"; "+expires;
 }
-
 function calculateWarmups(exerciseName, weight){
 	$('.bar').html(plates[getCookie('lbkg')][0]+"x5x2 (Bar)");
 	var set = [];
@@ -61,11 +60,9 @@ function calculateWarmups(exerciseName, weight){
 		$('.'+exerciseName+'max').html("Your 1 Rep Max is " + max + " "  + numToPlate(max));
 		$('#'+exerciseName+'Standard').html("You are in the category "+ standard[weightStandard(exerciseName, getWeightClass(getCookie('bodyweight')), max)]);
 }
-
 function oneRM(weight) {
 	return Math.round(weight / (1.0278 - (.0278 * 5)));
 }
-
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -78,25 +75,23 @@ function getCookie(cname) {
     }
     return "";
 }
-
 function setPlates() {
 	var array =[];
 	count =0;
 	$('#plates input:checked').each(function () {
 		//get the index from last part of id
+		//parseFloat($(this).attr('id')[$(this).attr('id').length-1]) is the number on plate tag
 		if (plates[getCookie('lbkg')][parseFloat($(this).attr('id')[$(this).attr('id').length-1])] != null) {
-		array[count] = plates[getCookie('lbkg')][parseFloat($(this).attr('id')[$(this).attr('id').length-1])];
+			array[count] = plates[getCookie('lbkg')][parseFloat($(this).attr('id')[$(this).attr('id').length-1])];
 		}
 		else {
-			array[count] = parseFloat($('label[for="plate'+(count)+'"]').text());
+			array[count] = parseFloat($('label[for="plate'+(parseFloat($(this).attr('id')[$(this).attr('id').length-1]))+'"]').text());
 		}
 		count += 1;
 	});
 	array.sort(function (a,b){return b-a});
-	console.log("inside setPlates");
 	setCookie('plates', JSON.stringify(array), 30);
 }
-
 function removePlates() {
 	for (i=6; i<$('#plates input').length+1; i++) {
 		var num = parseFloat($('#plate'+i+'').text());
@@ -112,7 +107,6 @@ function removePlates() {
 		setCookie('allPlates', JSON.stringify(array2), 30);
 	}
 }
-
 function calculateStrengthStandards(exerciseName){
 		$('.tab .tableHead:even').html(lbkg[getCookie('lbkg')]);
 		$('#'+exerciseName+'Tab .tableHead:eq(1)').html($('#'+exerciseName).children("h1").text());
@@ -168,7 +162,6 @@ function numToPlate(data) {
 	string += ")";
 	return string;
 }
-
 function getWeightClass(data) {
 	var w;
 	for (i=0; i<weightClass[getCookie('gender')][getCookie('lbkg')].length; i++) {
@@ -188,7 +181,6 @@ function getWeightClass(data) {
 	}
 	return w;
 }
-
 function pickWorkout(exercise) {
 	var workout;
 	switch (exercise) {
@@ -213,7 +205,6 @@ function pickWorkout(exercise) {
 	}
 	return workout;
 }
-
 function weightStandard(exercise, wc, oneRM) {
 	workout = pickWorkout(exercise);
 	var w;
@@ -233,17 +224,14 @@ function weightStandard(exercise, wc, oneRM) {
 	}
 	return w;
 }
-
 function removeTableClasses(){
 	$('tr').removeClass('weightclass');
 	$('td .work').removeClass('work');
 }
-
 function updateStandard(exerciseName) {
 	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+')').addClass('weightclass');
 	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+') td:eq('+(weightStandard(exerciseName, (getWeightClass(getCookie('bodyweight'))) , oneRM(getCookie(exerciseName)) )+1)+')').addClass('work');
 }
-
 function addPlate() {
 	var d = window.prompt("Enter weight", "55");
 	d = parseFloat(d);
@@ -327,7 +315,7 @@ $(document).ready(function () {
 	    $("#plates").controlgroup("container")["append"]($el);
     	$("#plates").trigger('create').controlgroup("refresh");
 	}
-
+	
 	$('#plates input').each(function () {
 		var currentRadio = $(this).attr('id');
 		// if plate is not in plates cookie, uncheck it
@@ -335,7 +323,6 @@ $(document).ready(function () {
 			$(this).prop('checked','');
 		}
 	});
-
 	//when a object in sortable list is dropped
 	$('.connectedSortable').sortable({
    		stop: function(event, ui) {
@@ -442,24 +429,13 @@ $(document).ready(function () {
 			}
 			array3[i] = plates[lbOrKg][i];
 		}			
-			setCookie('allPlates', JSON.stringify(array3), 30);
-			var len= $('#plates input').length;
-			if (len > 6) {
-			for (i=6; i<len; i++) {
-				console.log(array4[i-array4.length]);
-				console.log(array[i]);
-				array4[i-len] = array[i];
-				console.log(array4[i-array4.length]);
-			}
-		}
-			setCookie('plates', JSON.stringify(array4), 30);
-
+		setCookie('allPlates', JSON.stringify(array3), 30);
+		setCookie('plates', JSON.stringify(array4), 30);
 		removeTableClasses();
 		for (z=0; z<eName.length; z++) {
 			calculateStrengthStandards(eName[z]);
 			updateStandard(eName[z]);
 		}
-		
 		$('.Exercise').each(function() {
 			//lb to kg
 			if (lbOrKg == 0) {
