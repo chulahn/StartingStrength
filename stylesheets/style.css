@@ -1,12 +1,15 @@
 .work {
 	font-weight:bold;
 }
-.auto-style1 {
+.center {
 	text-align: center;
 }
 
 .tab {
 	overflow: scroll;
+}
+.weightclass {
+	background-color: #FFFC36;
 }
 
 table {
@@ -15,9 +18,7 @@ table {
 	border-spacing: 0px;
 
 }
-.weightclass {
-	background-color: #FFFC36;
-}
+
 td,tr,th {
 	border-style: solid;
 	border-width: 1px;
@@ -61,4 +62,4 @@ div.ui-input-text {
     padding: 5px;
     font-size: 1.2em;
     width: 30%;
-  }
+}
