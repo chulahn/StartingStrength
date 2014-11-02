@@ -116,19 +116,22 @@ function getOneRepMax(workingWeight) {
 */
 function setPlates() {
 	var plateArray = [];
+	var availablePlates = getCookie('availablePlates');
 	var count = 0;
 	$('#plates input:checked').each(function () {
-		var plateID = $(this).attr('id')
-		var plateArrayIndex = plateID.length-1
-		if (globalPlates[getCookie('lbkg')][parseFloat(plateID[plateArrayIndex])] != null) {
-			plateArray[count] = globalPlates[getCookie('lbkg')][parseFloat(plateID[plateArrayIndex])];
+		var plateID = $(this).attr('id');
+		var plateArrayIndex = plateID.length-1;
+		if (availablePlates[parseFloat(plateID[plateArrayIndex])] != null) {
+			plateArray[count] = availablePlates[parseFloat(plateID[plateArrayIndex])];
 		}
 		else {
 			plateArray[count] = parseFloat($('label[for="plate'+(parseFloat(plateID[plateArrayIndex]))+'"]').text());
 		}
 		count += 1;
 	});
-	plateArray.sort(function (a,b){return b-a});
+	console.log(plateArray,"before")
+	plateArray = plateArray.sort(function (a,b){return b-a});
+	console.log(plateArray,"after")
 	setCookie('toggledPlates', JSON.stringify(plateArray), 30);
 }
 
@@ -136,20 +139,40 @@ function setPlates() {
 	Remove extra plates set by user
 */
 function removePlates() {
-	for (i=6; i<$('#plates input').length+1; i++) {
+	for (i=0; i<$('#plates input').length+1; i++) {
 		var plateWeight = parseFloat($('label[for="plate'+i+'"]').text());
+		var arrayToCheck = globalPlates[getCookie('lbkg')];
+		// console.log("here" + plateWeight);
 		if (!isNaN(plateWeight)) {
-			$('#plate'+i+'').remove();
-			$('label[for="plate'+i+'"]').remove();
 			var toggledPlates = $.parseJSON(getCookie('toggledPlates'));
 			var allPlates = $.parseJSON(getCookie('allPlates'));
-			console.log(array,array2)
-			var ind = toggledPlates.indexOf(plateWeight);
-			var ind2 = allPlates.indexOf(plateWeight);
-			toggledPlates.splice(ind, 1);
-			allPlates.splice(ind2, 1);
-			setCookie('toggledPlates', JSON.stringify(toggledPlates), 30);
-			setCookie('allPlates', JSON.stringify(allPlates), 30);
+
+			if (arrayToCheck.indexOf(plateWeight) == -1) {
+				$('#plate'+i+'').remove();
+				$('label[for="plate'+i+'"]').remove();
+
+				var ind = toggledPlates.indexOf(plateWeight);
+				var ind2 = allPlates.indexOf(plateWeight);
+				console.log(ind,ind2);
+				toggledPlates.splice(ind, 1);
+				allPlates.splice(ind2, 1);
+				console.log(toggledPlates,allPlates);
+				setCookie('toggledPlates', JSON.stringify(toggledPlates), 30);
+				setCookie('allPlates', JSON.stringify(allPlates), 30);
+			}
+			else {
+				var ind2 = allPlates.indexOf(plateWeight);
+				var ind3 = allPlates.lastIndexOf(plateWeight);
+
+				if (allPlates.indexOf(plateWeight) != allPlates.lastIndexOf(plateWeight)) {
+					console.log(ind2, ind3);
+					console.log($('#plate'+ind3+''));
+
+
+				}
+			}
+
+			
 		}
 	}
 }
@@ -186,6 +209,7 @@ function calculateStrengthStandards(exerciseName){
 */
 function numToPlate(weightToCalculate) {
 	var availablePlates = $.parseJSON(getCookie('toggledPlates'));
+	console.log("here" + availablePlates);
 	var outPlates = [];
 	var barWeight = globalPlates[getCookie('lbkg')][0];
 	for (i=0; i<availablePlates.length; i++) {
@@ -301,17 +325,19 @@ function updateStandard(exerciseName) {
 function addPlate() {
 	var newPlate = window.prompt("Enter weight", "55");
 	newPlate = parseFloat(newPlate);
-	var newArray2 = $.parseJSON(getCookie('allPlates'));
-    if (newArray2.indexOf(newPlate) == -1 && !isNaN(newPlate)) {
-	   	var num = $('#plates input').length;
+	var newAllPlatesArray = $.parseJSON(getCookie('allPlates'));
+    if (newAllPlatesArray.indexOf(newPlate) == -1 && !isNaN(newPlate)) {
+	   	var num = $('#plates input').length+3;
 		$el = $('<input type="checkbox" id="plate'+num+'" checked="checked"><label class="plate" for="plate'+num+'">'+newPlate+'</label>');
 	    $("#plates").controlgroup("container")["append"]($el);
 	    $("#plates").trigger('create').controlgroup("refresh");
-	    var newArray = $.parseJSON(getCookie('toggledPlates'));
-	    newArray.push(newPlate);
-	    setCookie('toggledPlates', JSON.stringify (newArray) , 30);
-	    newArray2.push(newPlate);
-	    setCookie('allPlates', JSON.stringify (newArray2) , 30);
+	    var newToggledArray = $.parseJSON(getCookie('toggledPlates'));
+	    newToggledArray.push(newPlate);
+	    newToggledArray =  newToggledArray.sort(function (a,b){return b-a});
+	    setCookie('toggledPlates', JSON.stringify (newToggledArray) , 30);
+	    newAllPlatesArray.push(newPlate);
+	    newAllPlatesArray = newAllPlatesArray.sort(function (a,b){return b-a});
+	    setCookie('allPlates', JSON.stringify (newAllPlatesArray) , 30);
 	}
 	else if (isNaN(newPlate)) {
 		window.alert("Cannot add an empty plate");
@@ -489,6 +515,7 @@ $(document).ready(function () {
 
 	//set plates
 	$('#plates').change(function () {
+		console.log("changed");
 		setPlates();
 	});
 
@@ -505,16 +532,24 @@ $(document).ready(function () {
 		var array2 = $.parseJSON(getCookie('toggledPlates'));
 		var array3 = array.slice(0);
 		var array4 = array2.slice(0);
-		for (i=0; i<globalPlates[0].length; i++) {
-			$('label[for="plate'+(i)+'"]').text(globalPlates[lbOrKg][i]);
 
-			//if the current number of the original 5 plates is in array2, replace
-			if (array2.indexOf(parseFloat(array[i])) != -1) {
-				array4[array2.indexOf(parseFloat(array[i]))] = globalPlates[lbOrKg][i];
+		for (i=0; i<$('#plates input').length; i++) {
+			if (i<=5) { 
+				$('label[for="plate'+(i)+'"]').text(globalPlates[lbOrKg][i]);
+				array3[i] = globalPlates[lbOrKg][i];
+			
+				//if the current number of the original 5 plates is in array2, replace
+				if (array2.indexOf(parseFloat(array[i])) != -1) {
+					array4[array2.indexOf(parseFloat(array[i]))] = globalPlates[lbOrKg][i];
+				}
 			}
-			array3[i] = globalPlates[lbOrKg][i];
+			else {
+				$('#plate'+(i+3)+'').remove();
+				$('label[for="plate'+(i+3)+'"]').remove();				
+			}
+
 		}			
-		setCookie('allPlates', JSON.stringify(array3), 30);
+		setCookie('allPlates', JSON.stringify(globalPlates[lbOrKg]), 30);
 		setCookie('toggledPlates', JSON.stringify(array4), 30);
 		removeTableClasses();
 		for (z=0; z<eName.length; z++) {
