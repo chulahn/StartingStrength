@@ -129,9 +129,7 @@ function setPlates() {
 		}
 		count += 1;
 	});
-	console.log(plateArray,"before")
 	plateArray = plateArray.sort(function (a,b){return b-a});
-	console.log(plateArray,"after")
 	setCookie('toggledPlates', JSON.stringify(plateArray), 30);
 }
 
@@ -139,40 +137,19 @@ function setPlates() {
 	Remove extra plates set by user
 */
 function removePlates() {
-	for (i=0; i<$('#plates input').length+1; i++) {
+	for (i=6; i<$('#plates input').length+1; i++) {
 		var plateWeight = parseFloat($('label[for="plate'+i+'"]').text());
-		var arrayToCheck = globalPlates[getCookie('lbkg')];
-		// console.log("here" + plateWeight);
 		if (!isNaN(plateWeight)) {
+			$('#plate'+i+'').remove();
+			$('label[for="plate'+i+'"]').remove();
 			var toggledPlates = $.parseJSON(getCookie('toggledPlates'));
 			var allPlates = $.parseJSON(getCookie('allPlates'));
-
-			if (arrayToCheck.indexOf(plateWeight) == -1) {
-				$('#plate'+i+'').remove();
-				$('label[for="plate'+i+'"]').remove();
-
-				var ind = toggledPlates.indexOf(plateWeight);
-				var ind2 = allPlates.indexOf(plateWeight);
-				console.log(ind,ind2);
-				toggledPlates.splice(ind, 1);
-				allPlates.splice(ind2, 1);
-				console.log(toggledPlates,allPlates);
-				setCookie('toggledPlates', JSON.stringify(toggledPlates), 30);
-				setCookie('allPlates', JSON.stringify(allPlates), 30);
-			}
-			else {
-				var ind2 = allPlates.indexOf(plateWeight);
-				var ind3 = allPlates.lastIndexOf(plateWeight);
-
-				if (allPlates.indexOf(plateWeight) != allPlates.lastIndexOf(plateWeight)) {
-					console.log(ind2, ind3);
-					console.log($('#plate'+ind3+''));
-
-
-				}
-			}
-
-			
+			var ind = toggledPlates.indexOf(plateWeight);
+			var ind2 = allPlates.indexOf(plateWeight);
+			toggledPlates.splice(ind, 1);
+			allPlates.splice(ind2, 1);
+			setCookie('toggledPlates', JSON.stringify(toggledPlates), 30);
+			setCookie('allPlates', JSON.stringify(allPlates), 30);
 		}
 	}
 }
@@ -209,7 +186,6 @@ function calculateStrengthStandards(exerciseName){
 */
 function numToPlate(weightToCalculate) {
 	var availablePlates = $.parseJSON(getCookie('toggledPlates'));
-	console.log("here" + availablePlates);
 	var outPlates = [];
 	var barWeight = globalPlates[getCookie('lbkg')][0];
 	for (i=0; i<availablePlates.length; i++) {
@@ -242,6 +218,7 @@ function numToPlate(weightToCalculate) {
 	outputString += ")";
 	return outputString;
 }
+
 /*
 	Calculate the weight class of user based on gender, lbkg system, and user weight.
 */
@@ -264,6 +241,7 @@ function getWeightClass(userWeight) {
 	}
 	return userWeightClass;
 }
+
 /*
 	Returns the strength standard array for given exercise.
 */
@@ -297,7 +275,7 @@ function getUserStrengthStandard(exercise, weightClass, oneRepMax) {
 			else {
 			userStrengthStandard = i-1;
 		}
-			break
+			break;
 		}
 		else {
 			userStrengthStandard = i;
@@ -305,6 +283,7 @@ function getUserStrengthStandard(exercise, weightClass, oneRepMax) {
 	}
 	return userStrengthStandard;
 }
+
 /*
 	Removes class so new classes and css can be applied.
 */
@@ -312,6 +291,7 @@ function removeTableClasses(){
 	$('tr').removeClass('weightclass');
 	$('td .work').removeClass('work');
 }
+
 /*
 	Called on slide change.  Adds class to table elements so that css is applied.
 */
@@ -319,25 +299,24 @@ function updateStandard(exerciseName) {
 	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+')').addClass('weightclass');
 	$('#'+exerciseName+'Tab tr:eq('+(getWeightClass(getCookie('bodyweight'))+2)+') td:eq('+(getUserStrengthStandard(exerciseName, (getWeightClass(getCookie('bodyweight'))) , getOneRepMax(getCookie(exerciseName)) )+1)+')').addClass('work');
 }
+
 /*
 	Adds a new plate to be used in numToPlate.
 */
 function addPlate() {
 	var newPlate = window.prompt("Enter weight", "55");
 	newPlate = parseFloat(newPlate);
-	var newAllPlatesArray = $.parseJSON(getCookie('allPlates'));
-    if (newAllPlatesArray.indexOf(newPlate) == -1 && !isNaN(newPlate)) {
-	   	var num = $('#plates input').length+3;
+	var newArray2 = $.parseJSON(getCookie('allPlates'));
+    if (newArray2.indexOf(newPlate) == -1 && !isNaN(newPlate)) {
+	   	var num = $('#plates input').length;
 		$el = $('<input type="checkbox" id="plate'+num+'" checked="checked"><label class="plate" for="plate'+num+'">'+newPlate+'</label>');
 	    $("#plates").controlgroup("container")["append"]($el);
 	    $("#plates").trigger('create').controlgroup("refresh");
-	    var newToggledArray = $.parseJSON(getCookie('toggledPlates'));
-	    newToggledArray.push(newPlate);
-	    newToggledArray =  newToggledArray.sort(function (a,b){return b-a});
-	    setCookie('toggledPlates', JSON.stringify (newToggledArray) , 30);
-	    newAllPlatesArray.push(newPlate);
-	    newAllPlatesArray = newAllPlatesArray.sort(function (a,b){return b-a});
-	    setCookie('allPlates', JSON.stringify (newAllPlatesArray) , 30);
+	    var newArray = $.parseJSON(getCookie('toggledPlates'));
+	    newArray.push(newPlate);
+	    setCookie('toggledPlates', JSON.stringify (newArray) , 30);
+	    newArray2.push(newPlate);
+	    setCookie('allPlates', JSON.stringify (newArray2) , 30);
 	}
 	else if (isNaN(newPlate)) {
 		window.alert("Cannot add an empty plate");
@@ -360,21 +339,17 @@ function setDefaultCookies() {
 	setCookie('allPlates', JSON.stringify(globalPlates[0]), 30);
 }
 
-function setUpValues(weightSystem, gender, bodyweight, warmups, allPlates, workout) {
-	if (warmups != ""){
-		warmups = $.parseJSON(warmups);
-		for (t=0; t<5; t++) {
-			 $('#warm'+t+'').val(warmups[0][t]);
-			 $('#warmrep'+t+'').val(warmups[1][t]);
-			 $('#warmset'+t+'').val(warmups[2][t]);
-		}
-	}
-	if (bodyweight != "" && bodyweight != 0) {
+function setupBodyWeightText(bodyweight) {
+	if ( bodyweight != "" && bodyweight != 0) {
 		$('#bodyweight').attr('placeholder', "Your weight is "+ bodyweight+lbkg[getCookie('lbkg')]);
 	}
-	if (bodyweight == "" || bodyweight == 0) {
+	if ( bodyweight == "" || bodyweight == 0) {
 		$('#bodyweight').attr('placeholder', "Enter Weight");
-	}
+	}	
+}
+
+function setupWeightSystem(weightSystem) {
+
 	if (weightSystem == "1") {
 		$('#radio-choice-h-2b').prop('checked',"checked");
 		$('#radio-choice-h-2a').prop('checked',"");	
@@ -383,6 +358,9 @@ function setUpValues(weightSystem, gender, bodyweight, warmups, allPlates, worko
 		$('#radio-choice-h-2b').prop('checked',"");
 		$('#radio-choice-h-2a').prop('checked',"checked");		
 	}
+}
+
+function setupGender(gender) {
 	if (gender == "1") {
 		$('#genderb').prop('checked',"checked");
 		$('#gendera').prop('checked',"");	
@@ -391,64 +369,61 @@ function setUpValues(weightSystem, gender, bodyweight, warmups, allPlates, worko
 		$('#genderb').prop('checked',"");
 		$('#gendera').prop('checked',"checked");		
 	}
-
-	$("#plates").controlgroup();
-	for (i=0; i<allPlates.length; i++) {
-		$el = $('<input type="checkbox" id="plate'+i+'" checked="checked"><label class="plate" for="plate'+i+'">'+allPlates[i]+'</label>');
-	    $("#plates").controlgroup("container")["append"]($el);
-    	$("#plates").trigger('create').controlgroup("refresh");
-	}
-
-	$('#plates input').each(function () {
-		var currentRadio = $(this).attr('id');
-		// if plate is not in plates cookie, uncheck it
-		if ( $.inArray( parseFloat ( $('label[for='+currentRadio+']').text() ) , $.parseJSON(getCookie('toggledPlates')) ) == -1 ) {
-			$(this).prop('checked','');
-		}
-	});
-
-	//creates the workout page
-	var output1 = 'Workout A';
-	for (i=0; i<$.parseJSON(workout)[0].length; i++) {
-		output1 += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
-		output1 += eName[$.parseJSON(workout)[0][i]];
-		output1 += ' ">';
-		output1 += "<h3>"
-		output1 += exercises[$.parseJSON(workout)[0][i]];
-		output1 += "</h3><p></p></div>";
-	}
-	var output2 = '';
-	for (i=0; i<$.parseJSON(workout)[1].length; i++) {
-		output2 += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
-		output2 += eName[$.parseJSON(workout)[1][i]];
-		output2 += ' ">';
-		output2 += "<h3>"
-		output2 += exercises[$.parseJSON(workout)[1][i]];
-		output2 += "</h3><p></p></div>";
-	}
-	var output3 = 'Workout B';
-	for (i=0; i<$.parseJSON(workout)[2].length; i++) {
-		output3 += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
-		output3 += eName[$.parseJSON(workout)[2][i]];
-		output3 += ' ">';
-		output3 += "<h3>"
-		output3 += exercises[$.parseJSON(workout)[2][i]];
-		output3 += "</h3><p></p></div>";
-	}
-	$('#sortable1').html(output1);
-	$('#sortable2').html(output2);
-	$('#sortable3').html(output3);
-
-
-	//add the warmup sets to workout page
-	$('.workoutdiv div[data-role="collapsible"]').each( function() {
-		var arrayIndex = $.inArray($(this).children('h3').text(),exercises);
-		var exerciseClass = eName[arrayIndex];
-		$(this).children('p').html('<div id="Sets"><div class="bar">'+globalPlates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+exerciseClass+'warmup1></div><div class='+exerciseClass+'warmup2></div><div class='+exerciseClass+'warmup3></div><div class='+exerciseClass+'warmup4></div></div>');		
-	});
-
 }
 
+function setupWarmupInfo(warmups) {
+	if (warmups != ""){
+		warmups = $.parseJSON(warmups);
+		for (t=0; t<5; t++) {
+			 $('#warm'+t+'').val(warmups[0][t]);
+			 $('#warmrep'+t+'').val(warmups[1][t]);
+			 $('#warmset'+t+'').val(warmups[2][t]);
+		}
+	}	
+}
+
+function setupPlates(allPlates) {
+	$("#plates").controlgroup();
+	for (i=0; i<allPlates.length; i++) {
+		var plateButton = $('<input type="checkbox" id="plate'+i+'" checked="checked"><label class="plate" for="plate'+i+'">'+allPlates[i]+'</label>');
+	    $("#plates").controlgroup("container")["append"](plateButton);
+    	$("#plates").trigger('create').controlgroup("refresh");
+	}
+}
+
+function createWorkoutPage(workout) {
+	//creates the workout from cookie
+	var workoutAHTML = 'Workout A';
+	for (i=0; i<$.parseJSON(workout)[0].length; i++) {
+		workoutAHTML += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
+		workoutAHTML += eName[$.parseJSON(workout)[0][i]];
+		workoutAHTML += ' ">';
+		workoutAHTML += "<h3>"
+		workoutAHTML += exercises[$.parseJSON(workout)[0][i]];
+		workoutAHTML += "</h3><p></p></div>";
+	}
+	var workoutBHTML = '';
+	for (i=0; i<$.parseJSON(workout)[1].length; i++) {
+		workoutBHTML += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
+		workoutBHTML += eName[$.parseJSON(workout)[1][i]];
+		workoutBHTML += ' ">';
+		workoutBHTML += "<h3>"
+		workoutBHTML += exercises[$.parseJSON(workout)[1][i]];
+		workoutBHTML += "</h3><p></p></div>";
+	}
+	var workoutCHTML = 'Workout B';
+	for (i=0; i<$.parseJSON(workout)[2].length; i++) {
+		workoutCHTML += '<div data-role="collapsible" data-mini="true" class="ui-state-highlight ';
+		workoutCHTML += eName[$.parseJSON(workout)[2][i]];
+		workoutCHTML += ' ">';
+		workoutCHTML += "<h3>"
+		workoutCHTML += exercises[$.parseJSON(workout)[2][i]];
+		workoutCHTML += "</h3><p></p></div>";
+	}
+	$('#sortable1').html(workoutAHTML);
+	$('#sortable2').html(workoutBHTML);
+	$('#sortable3').html(workoutCHTML);	
+}
 
 $(document).ready(function () {
 	//first time visiting site, set defaults
@@ -456,7 +431,7 @@ $(document).ready(function () {
 		window.alert("Welcome to the Starting Strength calculator.  Please set your settings, otherwise the default settings will be used.")
 		setDefaultCookies();
 	}
-	//create footer
+	//create footer depending on page
 	$(document).on("pageshow", "[data-role='page']", function() {
 		if ($(this).hasClass("default_footer")) {
 			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-gear">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
@@ -465,16 +440,30 @@ $(document).ready(function () {
 			$('<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#main" class ="ui-btn-icon-top ui-btn ui-icon-home">Exercises</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>').appendTo($(this)).toolbar({position: "fixed"});
 		}
 	});
-	//when page loads, determine if in lb or kg, and check appropriate box and set plates
+
+	//get information and set up page from cookies
 	var weightSystem = getCookie('lbkg');
-	var gender = getCookie('gender');
 	var warmups = getCookie('warmups');
+	var gender = getCookie('gender');
 	var bodyweight = getCookie('bodyweight');
-	var allPlates = $.parseJSON(getCookie('allPlates'))
+	var allPlates = $.parseJSON(getCookie('allPlates'));
 	var weightClass = getWeightClass(bodyweight);
 	var workout = getCookie('workout');
 
-	setUpValues(weightSystem, gender, bodyweight, warmups, allPlates, workout);
+	setupBodyWeightText(bodyweight);
+	setupWeightSystem(weightSystem);
+	setupGender(gender);
+	setupWarmupInfo(warmups)
+	setupPlates(allPlates);
+	createWorkoutPage(workout);
+
+	$('#plates input').each(function () {
+		var currentRadio = $(this).attr('id');
+		// if plate is not in plates cookie, uncheck it
+		if ( $.inArray( parseFloat ( $('label[for='+currentRadio+']').text() ) , $.parseJSON(getCookie('toggledPlates')) ) == -1 ) {
+			$(this).prop('checked','');
+		}
+	});
 
 	//when a object in sortable list is dropped
 	$('.connectedSortable').sortable({
@@ -496,14 +485,13 @@ $(document).ready(function () {
    		}
 	});
 
+	
+
 	$('.workoutdiv div[data-role="collapsible"]').change(function() {
 		text = $(this).text().replace("I'm the collapsible set content for section 1.","");
 		text = text.trim();
-		if (text == "Squat") {
-		}
 	});
 
-	//finds weight class
 	$('#bodyweight').change(function () {
 		setCookie("bodyweight", $(this).val(), 30);
 		weightClass = getWeightClass($(this).val());
@@ -513,9 +501,16 @@ $(document).ready(function () {
 		});
 	});
 
+	//add the warmup sets to workout page
+	$('.workoutdiv div[data-role="collapsible"]').each( function() {
+		var arrayIndex = $.inArray($(this).children('h3').text(),exercises);
+		var exerciseClass = eName[arrayIndex];
+		$(this).children('p').html('<div id="Sets"><div class="bar">'+globalPlates[getCookie('lbkg')][0]+'x5x2 (Bar)</div><div class='+exerciseClass+'warmup1></div><div class='+exerciseClass+'warmup2></div><div class='+exerciseClass+'warmup3></div><div class='+exerciseClass+'warmup4></div></div>');		
+	});
+
+
 	//set plates
 	$('#plates').change(function () {
-		console.log("changed");
 		setPlates();
 	});
 
@@ -532,31 +527,23 @@ $(document).ready(function () {
 		var array2 = $.parseJSON(getCookie('toggledPlates'));
 		var array3 = array.slice(0);
 		var array4 = array2.slice(0);
+		for (i=0; i<globalPlates[0].length; i++) {
+			$('label[for="plate'+(i)+'"]').text(globalPlates[lbOrKg][i]);
 
-		for (i=0; i<$('#plates input').length; i++) {
-			if (i<=5) { 
-				$('label[for="plate'+(i)+'"]').text(globalPlates[lbOrKg][i]);
-				array3[i] = globalPlates[lbOrKg][i];
-			
-				//if the current number of the original 5 plates is in array2, replace
-				if (array2.indexOf(parseFloat(array[i])) != -1) {
-					array4[array2.indexOf(parseFloat(array[i]))] = globalPlates[lbOrKg][i];
-				}
+			//if the current number of the original 5 plates is in array2, replace
+			if (array2.indexOf(parseFloat(array[i])) != -1) {
+				array4[array2.indexOf(parseFloat(array[i]))] = globalPlates[lbOrKg][i];
 			}
-			else {
-				$('#plate'+(i+3)+'').remove();
-				$('label[for="plate'+(i+3)+'"]').remove();				
-			}
-
+			array3[i] = globalPlates[lbOrKg][i];
 		}			
-		setCookie('allPlates', JSON.stringify(globalPlates[lbOrKg]), 30);
+		setCookie('allPlates', JSON.stringify(array3), 30);
 		setCookie('toggledPlates', JSON.stringify(array4), 30);
 		removeTableClasses();
 		for (z=0; z<eName.length; z++) {
 			calculateStrengthStandards(eName[z]);
 			updateStandard(eName[z]);
 		}
-		$('.Exercise').each(function() {
+		$('.Exercise').each( function () {
 			//lb to kg
 			if (lbOrKg == 0) {
 				setCookie($(this).attr('id'), Math.round(getCookie($(this).attr('id')) * 2.2) , 30 );
@@ -598,7 +585,7 @@ $(document).ready(function () {
 	})
 
 	//each exercise, create page
-	$('.Exercise').each(function createExercisePage() {
+	$('.Exercise').each(function createExercisePage () {
 		var exerciseName = $(this).attr('id');
 		$('<header data-theme="b" data-role="header"><h1>'+$(this).children("h1").text()+'</h1><a href="#" class ="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-back ui-btn-icon-left" data-rel="back">Back</a><a href="#About" class ="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-bars ui-btn-icon-left">About</a></header>').prependTo($(this));
 		if (bodyweight != "" && bodyweight != 0) {
