@@ -48,11 +48,13 @@ I came across warmupreps.com one day and I enjoyed using the site myself when I 
       <li><b>Mobile Device Users</b>:  If a tab won't expand, try tapping around the edges of the workout instead of the center.
     </ul>
   <li>Your lifts have been saved, get some rest.  Next time you lift, your information will be here so incrementing will be easy
-  
-<h3>How was it made?</h3>
-<li><b>JQuery</b> - Creating pages and event-handling
-<li><b>JQueryMobile</b> - Interface and collapsible divs
-<li><b>JQueryUI</b> - sortable to allow exercises to be dragged and dropped
-<li><b>JQueryUI Touch Punch</b> - allow the drag and drop features to work on touch-screen devices.
+</ol>
 
+<h3>How was it made?</h3>
+<ul>
+  <li><b>JQuery</b> - Creating pages and event-handling
+  <li><b>JQueryMobile</b> - Interface and collapsible divs
+  <li><b>JQueryUI</b> - sortable to allow exercises to be dragged and dropped
+  <li><b>JQueryUI Touch Punch</b> - allow the drag and drop features to work on touch-screen devices.
+</ul>
 
