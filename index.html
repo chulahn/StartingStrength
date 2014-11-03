@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="msvalidate.01" content="D7CDE26015F5FA7DC21C37FFAEB929B8" />
+		<title>Starting Strength Calculator</title>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+		<link rel="stylesheet" href="stylesheets/style.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+		<script src="javascripts/jquery-ui.min.js"></script>
+		<script src="javascripts/jquery.ui.touch-punch.min.js"></script>
+	</head>
+
+	<body>
+		<section id ="main" class="default_footer" data-role="page">
+			<header data-theme="b" data-role="header">
+			<h1>Main Page</h1>
+			<a href="#" class ="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-home ui-btn-icon-left">Home</a>
+			<a href="#About" data-transition="pop" class ="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-icon-bars ui-btn-icon-left ">About</a>
+			</header><!-- header -->
+			
+			<p class="center">Starting Strength Calculator</p>
+				<a href="#Squat" data-role="button">Squat</a>
+				<a href="#Bench" data-role="button">Bench</a>
+				<a href="#Deadlift" data-role="button">Deadlift</a>
+				<a href="#OHP" data-role="button">Overhead Press</a>
+				<a href="#Row" data-role="button">Pendlay Row</a>
+				<a href="#PC" data-role="button">Power Cleans</a>
+				<footer data-theme="b" data-role="footer" data-position="fixed"><nav data-role = "navbar"><ul><li><a href="#Workouts" class ="ui-btn-icon-top ui-btn ui-icon-gear">Workouts</a></li><li><a href="#Settings" data-transition="slidedown" class ="ui-btn-icon-top ui-btn ui-icon-edit">Settings</a></li></ul></nav></footer>
+		</section>
+
+		<section id ="Squat" class="Exercise default_footer" data-role="page">
+			<h1>Squat</h1>
+		</section><!-- end squat-->
+
+		<section id ="Bench" class="Exercise default_footer" data-role="page">
+			<h1>Bench</h1>
+		</section><!-- end bench-->
+
+		<section id ="Deadlift" class="Exercise default_footer" data-role="page">
+			<h1>Deadlift</h1>
+		</section><!-- end deadlift-->
+
+		<section id ="OHP" class="Exercise default_footer" data-role="page">
+			<h1>Overhead Press</h1>
+		</section><!-- end ohp-->
+
+		<section id ="Row" class="Exercise default_footer" data-role="page">
+			<h1>Pendlay Row</h1>
+		</section><!-- end row-->
+
+		<section id ="PC" class="Exercise default_footer" data-role="page">
+			<h1>Power Cleans</h1>
+		</section><!-- end pc-->
+
+		<section id ="About" data-dialog="true" data-role="page">
+			<div>
+				<h1>About</h1>
+				<p>This website is used to calculate your warm up sets as well as the weights needed on each side.</p><p>  Warmups are calculated as followed; first the bar x 5(reps) x 2(sets), 40% working set x 5, 60% x 3, 80% x 2.  The warmup percentages, reps and sets can all be customized to suit your needs.</p><p>  It also calculates your 1RM(One Rep Max) by using the formula,  
+				Working Weight / (1.0278 - (.0278 * 5)), where 5 is the number of reps for your working set.  Your 1RM is then compared to the Exrx.net weightlifting standards table.  This feature can be used once you set your bodyweight and gender in settings.  There is not a standard for Rows, so the Bench numbers are used instead.  </p><p>After setting weights for each exercise, go to the Workouts page to see your workout for the day.  It can be customized by dragging and dropping the exercises into the appropriate boxes.  Based on warmupreps.com</p>
+			<p><a data-rel="back">Back</a>
+			</p>
+			</div>
+		</section>
+
+		<section id="Settings" data-dialog="true" data-role="page">
+			<div class="center">	
+				<form>
+					<fieldset id="weightSystem" data-role="controlgroup" data-type="horizontal">
+					    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a"  checked="true" onclick="setCookie('lbkg',0,30)" ></input>
+					    <label for="radio-choice-h-2a">Lb</label>
+					    <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" checked="false" onclick="setCookie('lbkg',1,30)"></input>
+					    <label for="radio-choice-h-2b">Kg</label>
+					</fieldset>
+				</form>
+				<form>
+					<fieldset id="gender" data-role="controlgroup" data-type="horizontal">
+					    <input type="radio" name="gender" id="gendera"  checked="true" onclick="setCookie('gender',0,30)" ></input>
+					    <label for="gendera">Male</label>
+					    <input type="radio" name="gender" id="genderb" checked="false" onclick="setCookie('gender',1,30)"></input>
+					    <label for="genderb">Female</label>
+					</fieldset>
+				</form>
+				<input type="number" id="bodyweight" value placeholder="Enter Weight"></input>
+
+				<form>
+					<p>Plates:</p>
+					<fieldset id="plates" data-role="controlgroup" data-type="horizontal">
+					</fieldset>
+					<a class="ui-btn" onclick="addPlate()">Add Plate</a>
+					<a class="ui-btn" onclick="removePlates()">Remove Custom Plates</a>
+				</form>
+				
+				<form>
+					<table id="warmupsettings" style="width: 100%">
+						<tr>
+							<td>% of Working Weight<br />(0 for Bar)</td>
+							<td># of Reps</td>
+							<td># of Sets</td>
+						</tr>
+
+						<tr>
+							<td><input type="number" name="bara" id="warm0" value="0"></td>
+							<td><input type="number" name="rep" id="warmrep0" value="5"></td>
+							<td><input type="number" name="set" id="warmset0" value="2"></td>
+						</tr>
+						<tr>
+							<td><input type="number" name="warm1" id="warm1" value="40"></td>
+							<td><input type="number" name="rep1" id="warmrep1" value="5"></td>
+							<td><input type="number" name="set1" id="warmset1" value="1"></td>
+						</tr>
+						<tr>
+							<td><input type="number" name="warm2" id="warm2" value="60"></td>
+							<td><input type="number" name="rep2" id="warmrep2" value="3"></td>
+							<td><input type="number" name="set2" id="warmset2" value="1"></td>
+						</tr>
+						<tr>
+							<td><input type="number" name="warm3" id="warm3" value="80"></td>
+							<td><input type="number" name="rep3" id="warmrep3" value="2"></td>
+							<td><input type="number" name="set3" id="warmset3" value="1"></td>
+						</tr>
+						<tr>
+							<td><input type="number" name="warm4" id="warm4" value="100"></td>
+							<td><input type="number" name="rep4" id="warmrep4" value="5"></td>
+							<td><input type="number" name="set4" id="warmset4" value="3"></td>
+						</tr>
+					</table>
+					
+				
+				</form>
+
+				<p><a class="ui-btn ui-icon-back ui-btn-icon-left ui-btn-inline ui-corner-all" data-rel="back" data-theme="e">Back</a>
+				</p>
+			</div>
+		</section>
+
+		<section id="Workouts" data-role="page">
+
+			<div class="workoutdiv">
+			
+				<ul id="sortable1" class="connectedSortable">
+				</ul>
+
+				<ul id="sortable2" class="connectedSortable">
+				  </ul>
+			
+				<ul id="sortable3" class="connectedSortable">
+				</ul>
+			</div>
+		</section>
+
+		<script src="javascripts/app.min.js"></script>
+
+	</body>
+
+</html>
