@@ -1,5 +1,6 @@
 StartingStrength
 ================
+<a href="chulahn.github.io/StartingStrength">Link to the app</a>
 <h3>About</h3>
 This web-app is for those who follow Rippetoe's Starting Strength or a similar compound exercise routine.  It calculates how much weight and the number of reps to warm up with.  It also shows what plates to add for example, 65lbs would show (10x1) which means to add a 10lb plate to each side of the bar.
 
